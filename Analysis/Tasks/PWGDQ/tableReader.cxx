@@ -98,8 +98,8 @@ struct BarrelTrackSelection {
     fHistMan->SetUseDefaultVariableNames(kTRUE);
     fHistMan->SetDefaultVarNames(VarManager::fgVariableNames, VarManager::fgVariableUnits);
 
-    DefineHistograms(fHistMan, "TrackBarrel_BeforeCuts;TrackBarrel_AfterCuts;");                                                                                       // define all histograms
-    VarManager::SetUseVars(fHistMan->GetUsedVars());                                                                                                                   // provide the list of required variables so that VarManager knows what to fill
+    DefineHistograms(fHistMan, "TrackBarrel_BeforeCuts;TrackBarrel_AfterCuts;"); // define all histograms
+    VarManager::SetUseVars(fHistMan->GetUsedVars());                             // provide the list of required variables so that VarManager knows what to fill
 
     DefineCuts();
   }
