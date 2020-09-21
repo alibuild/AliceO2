@@ -404,9 +404,9 @@ void RawFileWriter::LinkData::addHBFPage(bool stop)
   }
   // finalize last RDH
   auto& lastRDH = *getLastRDH();
-  int psize = buffer.size() - lastRDHoffset;                  // set the size for the previous header RDH
+  int psize = buffer.size() - lastRDHoffset;                     // set the size for the previous header RDH
   if (stop && psize == sizeof(RDHAny) && writer->emptyHBFFunc) { // we are closing an empty page, does detector want to add something?
-    std::vector<char> emtyHBFFiller;                          // working space for optional empty HBF filler
+    std::vector<char> emtyHBFFiller;                             // working space for optional empty HBF filler
     writer->emptyHBFFunc(&lastRDH, emtyHBFFiller);
     if (emtyHBFFiller.size()) {
       LOG(DEBUG) << "Adding empty HBF filler of size " << emtyHBFFiller.size() << " for " << describe();

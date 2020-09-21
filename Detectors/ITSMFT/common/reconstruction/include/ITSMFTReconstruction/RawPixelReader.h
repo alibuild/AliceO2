@@ -780,7 +780,7 @@ class RawPixelReader : public PixelReader
       mDecodingStat.nPagesProcessed++;
       raw += RDHUtils::getHeaderSize(rdh);
       int nGBTWords = (RDHUtils::getMemorySize(rdh) - RDHUtils::getHeaderSize(rdh)) / mGBTWordSize - 2; // number of GBT words excluding header/trailer
-      auto gbtH = reinterpret_cast<const o2::itsmft::GBTDataHeader*>(raw);    // process GBT header
+      auto gbtH = reinterpret_cast<const o2::itsmft::GBTDataHeader*>(raw);                              // process GBT header
 
 #ifdef _RAW_READER_ERROR_CHECKS_
       if (mVerbose) {
