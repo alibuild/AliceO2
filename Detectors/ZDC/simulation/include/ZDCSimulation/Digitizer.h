@@ -133,7 +133,7 @@ class Digitizer
   o2::InteractionTimeRecord mIR;
   std::deque<o2::InteractionRecord> mIRExternalTrigger; // IRs of externally provided triggered (at the moment MC sampled interactions)
 
-  std::deque<BCCache> mCache; // cached BCs data
+  std::deque<BCCache> mCache;                                    // cached BCs data
   std::array<std::vector<int16_t>, NChannels> mTrigChannelsData; // buffer for fast access to triggered channels data
   int mTrigBinMin = 0xffff;                                      // prefetched min and max
   int mTrigBinMax = -0xffff;                                     // bins to be checked for trigger
