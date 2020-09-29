@@ -67,13 +67,13 @@ struct SelectTracks {
       isselected_0 = isselected_0 && (TESTBIT(clustermap_0, 0) || TESTBIT(clustermap_0, 1));
       if (!isselected_0)
         status_2prong = 0;
-        status_3prong = 0;
+      status_3prong = 0;
       array<float, 2> dca;
       auto trackparvar0 = getTrackParCov(track);
       bool isprop = trackparvar0.propagateParamToDCA(vtxXYZ, d_bz, &dca, 100.); // get impact parameters
       if (!isprop)
         status_2prong = 0;
-        status_3prong = 0;
+      status_3prong = 0;
       if (abs(dca[0]) < dcatoprimxymin_2prong)
         status_2prong = 0;
       if (abs(dca[0]) < dcatoprimxymin_3prong)
