@@ -8,7 +8,7 @@
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
 
-/// \file rawReaderFile.cxx 
+/// \file rawReaderFile.cxx
 /// \author Boris Polishchuk (Boris.Polishchuk@cern.ch)
 
 #include <array>
@@ -28,7 +28,7 @@ using namespace o2::emcal;
 int main(int argc, char** argv)
 {
 
-  char *rawFileName    = argv[1];
+  char* rawFileName = argv[1];
   std::string inputDir = " ";
 
   o2::raw::RawFileReader reader;
@@ -39,53 +39,53 @@ int main(int argc, char** argv)
   reader.init();
 
   while (1) {
-    
+
     int tfID = reader.getNextTFToRead();
-    
+
     if (tfID >= reader.getNTimeFrames()) {
       std::cerr << "nothing left to read after " << tfID << " TFs read";
       break;
     }
 
     std::vector<char> dataBuffer; // where to put extracted data
-    
+
     for (int il = 0; il < reader.getNLinks(); il++) {
       auto& link = reader.getLink(il);
       std::cout << "Decoding link " << il << std::endl;
-      
+
       auto sz = link.getNextTFSize(); // size in bytes needed for the next TF of this link
       dataBuffer.resize(sz);
       link.readNextTF(dataBuffer.data());
 
       // Parse
       o2::emcal::RawReaderMemory parser(dataBuffer);
-      
+
       while (parser.hasNext()) {
         parser.next();
         std::cout << "next page \n";
-	
+
         //std::cout<<rawreader.getRawHeader()<<std::endl;
 
         // use the altro decoder to decode the raw data, and extract the RCU trailer
         o2::emcal::AltroDecoder decoder(parser);
         decoder.decode();
-	
+
         std::cout << decoder.getRCUTrailer() << std::endl;
-	
+
         // Loop over all the channels
         for (auto& chan : decoder.getChannels()) {
-	  
-	  std::cout << "HW=" << chan.getHardwareAddress() <<  " (FEC"<< chan.getFECIndex() << "): ";
-	  for(auto &bunch : chan.getBunches()) 
-	    {
-	      std::cout << "BunchLength=" << (int) bunch.getBunchLength() << "  StartTiime=" <<  (int) bunch.getStartTime() << "  :";
-	      for(auto const e : bunch.getADC()) std::cout << e << " ";
-	      std::cout << std::endl;
-	    }
+
+          std::cout << "HW=" << chan.getHardwareAddress() << " (FEC" << chan.getFECIndex() << "): ";
+          for (auto& bunch : chan.getBunches()) {
+            std::cout << "BunchLength=" << (int)bunch.getBunchLength() << "  StartTiime=" << (int)bunch.getStartTime() << "  :";
+            for (auto const e : bunch.getADC())
+              std::cout << e << " ";
+            std::cout << std::endl;
+          }
         }
       }
     }
-    
+
     reader.setNextTFToRead(++tfID);
   }
 }
