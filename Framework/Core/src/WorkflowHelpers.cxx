@@ -375,10 +375,10 @@ void WorkflowHelpers::injectServiceDevices(WorkflowSpec& workflow, ConfigContext
   // First analyze all ouputs
   //  outputTypes = isAOD*2 + isdangling*1 + 0
   auto [OutputsInputs, outputTypes] = analyzeOutputs(workflow);
- 
+
   // create DataOutputDescriptor
   std::shared_ptr<DataOutputDirector> dod = getDataOutputDirector(ctx.options(), OutputsInputs, outputTypes);
-  
+
   // file sink for any AOD output
   extraSpecs.clear();
 
@@ -396,7 +396,7 @@ void WorkflowHelpers::injectServiceDevices(WorkflowSpec& workflow, ConfigContext
   }
 
   if (outputsInputsAOD.size() > 0) {
-    auto fileSink = CommonDataProcessors::getGlobalAODSink(dod,outputsInputsAOD);
+    auto fileSink = CommonDataProcessors::getGlobalAODSink(dod, outputsInputsAOD);
     extraSpecs.push_back(fileSink);
   }
   workflow.insert(workflow.end(), extraSpecs.begin(), extraSpecs.end());
@@ -797,9 +797,8 @@ std::shared_ptr<DataOutputDirector> WorkflowHelpers::getDataOutputDirector(Confi
   dod->setFilenameBase(fnbase);
   dod->setFileMode(filemode);
   dod->setNumberTimeFramesToMerge(ntfmerge);
-    
-  return dod;
 
+  return dod;
 }
 
 std::tuple<std::vector<InputSpec>, std::vector<unsigned char>> WorkflowHelpers::analyzeOutputs(WorkflowSpec const& workflow)

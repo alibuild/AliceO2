@@ -387,10 +387,10 @@ DataProcessorSpec
         // does this need to be saved?
         auto dh = DataRefUtils::getHeader<header::DataHeader*>(ref);
         auto dataProcessingHeader = DataRefUtils::getHeader<DataProcessingHeader*>(ref);
-        
+
         // the startTime contained in the header determined the folder number
         uint64_t folderNumber = dataProcessingHeader->startTime;
-        
+
         // get th erelevant DataOutputDescriptors
         auto ds = dod->getDataOutputDescriptors(*dh);
         if (ds.size() > 0) {
@@ -442,8 +442,7 @@ DataProcessorSpec
     OutputInputs,
     Outputs{},
     AlgorithmSpec(writerFunction),
-    {}
-  };
+    {}};
 
   return spec;
 }

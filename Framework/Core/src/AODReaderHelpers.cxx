@@ -117,8 +117,7 @@ AlgorithmSpec AODReaderHelpers::rootFileReaderCallback()
                            fileCounter,
                            numTF,
                            watchdog,
-                           didir](DataAllocator& outputs, ControlService& control, DeviceSpec const& device) {      
-      
+                           didir](DataAllocator& outputs, ControlService& control, DeviceSpec const& device) {
       // check if RuntimeLimit is reached
       if (!watchdog->update()) {
         LOGP(INFO, "Run time exceeds run time limit of {} seconds!", watchdog->runTimeLimit);
@@ -136,7 +135,7 @@ AlgorithmSpec AODReaderHelpers::rootFileReaderCallback()
       int ntf = *numTF + 1;
 
       // loop over requested tables
-      TTree *tr = nullptr;
+      TTree* tr = nullptr;
       bool first = true;
       for (auto route : requestedTables) {
 
@@ -186,11 +185,10 @@ AlgorithmSpec AODReaderHelpers::rootFileReaderCallback()
         // fill the table
         t2t.fill(tr);
       }
-      
+
       // save file number and time frame
       *fileCounter = (fcnt - device.inputTimesliceId) / device.maxInputTimeslices;
       *numTF = ntf;
-
     });
   })};
 

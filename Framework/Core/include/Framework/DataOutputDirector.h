@@ -75,7 +75,7 @@ struct DataOutputDirector {
   void setNumberTimeFramesToMerge(int ntfmerge) { mnumberTimeFramesToMerge = ntfmerge; }
   std::string getFileMode() { return mfileMode; }
   void setFileMode(std::string filemode) { mfileMode = filemode; }
-  
+
   // get matching DataOutputDescriptors
   std::vector<DataOutputDescriptor*> getDataOutputDescriptors(header::DataHeader dh);
   std::vector<DataOutputDescriptor*> getDataOutputDescriptors(InputSpec spec);

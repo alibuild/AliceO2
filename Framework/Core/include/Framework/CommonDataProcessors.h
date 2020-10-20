@@ -44,7 +44,7 @@ struct CommonDataProcessors {
 
   /// writes inputs of kind AOD to file
   static DataProcessorSpec getGlobalAODSink(std::shared_ptr<DataOutputDirector> dod,
-                                           std::vector<InputSpec> const& OutputInputs);
+                                            std::vector<InputSpec> const& OutputInputs);
 
   //static DataProcessorSpec getGlobalAODSink(std::vector<InputSpec> const& OutputInputs,
   //                                          std::vector<bool> const& isdangling);
