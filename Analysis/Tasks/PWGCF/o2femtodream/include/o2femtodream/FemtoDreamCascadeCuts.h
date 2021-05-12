@@ -26,7 +26,6 @@ namespace femtoDream
 class FemtoDreamCascadeCuts
 {
  public:
-
   static std::string getCutHelp();
 
  private:

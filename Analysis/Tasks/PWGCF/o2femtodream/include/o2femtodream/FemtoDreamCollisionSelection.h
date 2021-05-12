@@ -70,7 +70,7 @@ class FemtoDreamCollisionSelection
   bool mCheckOffline;      ///< Check for offline criteria (might change)
 
   //HistogramRegistry* mHistogramRegistry; ///< For QA output
-  bool mDoQA;                            ///< Switch for protection
+  bool mDoQA; ///< Switch for protection
 
   ClassDefNV(FemtoDreamCollisionSelection, 1);
 };

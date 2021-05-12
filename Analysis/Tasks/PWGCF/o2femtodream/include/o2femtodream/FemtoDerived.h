@@ -49,7 +49,7 @@ DECLARE_SOA_TABLE(FemtoDreamParticles, "AOD", "FemtoDreamParts",
                   femtodreamparticle::Eta,
                   femtodreamparticle::Phi,
                   femtodreamparticle::Charge,
-		  femtodreamparticle::Cut);
+                  femtodreamparticle::Cut);
 using FemtoDreamParticle = FemtoDreamParticles::iterator;
 
 namespace hash
@@ -62,10 +62,9 @@ using Hash = Hashes::iterator;
 namespace mixingEvent
 {
 DECLARE_SOA_COLUMN(Use, use, int);
-} // namespace hash
+} // namespace mixingEvent
 DECLARE_SOA_TABLE(MixingEvents, "AOD", "ME", mixingEvent::Use);
 using MixingEvent = MixingEvents::iterator;
-
 
 } // namespace o2::aod
 

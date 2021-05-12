@@ -26,7 +26,6 @@ namespace femtoDream
 class FemtoDreamV0Cuts
 {
  public:
-
   static std::string getCutHelp();
 
  private:

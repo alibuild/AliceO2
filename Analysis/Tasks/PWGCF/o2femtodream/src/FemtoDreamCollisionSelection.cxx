@@ -37,7 +37,7 @@ FemtoDreamCollisionSelection::FemtoDreamCollisionSelection(float zvtxMax, bool c
 {
 }
 
-void FemtoDreamCollisionSelection::init()//HistogramRegistry* registry)
+void FemtoDreamCollisionSelection::init() //HistogramRegistry* registry)
 {
   //mHistogramRegistry = registry;
   mDoQA = true;

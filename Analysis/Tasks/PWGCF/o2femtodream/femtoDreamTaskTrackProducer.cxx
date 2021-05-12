@@ -80,7 +80,6 @@ struct femtoDreamTaskTrackProducer {
     trackCuts.init(); //&qaRegistry);
 
     qaRegistry.add("TrackCuts/tpcnclshist", "; TPC Cluster; Entries", kTH1F, {{163, 0, 163}});
-
   }
 
   void process(o2::aod::FilteredFullCollision const& col,
