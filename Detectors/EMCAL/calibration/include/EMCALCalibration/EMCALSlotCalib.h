@@ -26,50 +26,49 @@
 #include <boost/histogram/ostream.hpp>
 #include <boost/format.hpp>
 
-
 namespace o2
 {
 namespace emcal
 {
-    class EMCALChannelCalibrator;
-    class EMCALSlotCalib
-    {
-        //using Slot = o2::calibration::TimeSlot<o2::emcal::EMCALChannelData>;
-        using Cell = o2::emcal::Cell;
-        using TFType = uint64_t;
-        using boostHisto = boost::histogram::histogram<std::tuple<boost::histogram::axis::regular<double, boost::use_default, boost::use_default, boost::use_default>, boost::histogram::axis::integer<>>, boost::histogram::unlimited_storage<std::allocator<char>>>;
-        public:
+class EMCALChannelCalibrator;
+class EMCALSlotCalib
+{
+  //using Slot = o2::calibration::TimeSlot<o2::emcal::EMCALChannelData>;
+  using Cell = o2::emcal::Cell;
+  using TFType = uint64_t;
+  using boostHisto = boost::histogram::histogram<std::tuple<boost::histogram::axis::regular<double, boost::use_default, boost::use_default, boost::use_default>, boost::histogram::axis::integer<>>, boost::histogram::unlimited_storage<std::allocator<char>>>;
 
-            EMCALSlotCalib(int ns) : mSigma(ns){
-                // NCELLS includes DCal, treat as one calibration
-                o2::emcal::Geometry* mGeometry = o2::emcal::Geometry::GetInstanceFromRunNumber(300000);
-                int NCELLS = mGeometry->GetNCells();
-            }
+ public:
+  EMCALSlotCalib(int ns) : mSigma(ns)
+  {
+    // NCELLS includes DCal, treat as one calibration
+    o2::emcal::Geometry* mGeometry = o2::emcal::Geometry::GetInstanceFromRunNumber(300000);
+    int NCELLS = mGeometry->GetNCells();
+  }
 
-            ~EMCALSlotCalib() = default;
+  ~EMCALSlotCalib() = default;
 
+  /// \brief Average energy per hit is caluclated for each cell.
+  /// \param emin -- min. energy for cell amplitudes
+  /// \param emax -- max. energy for cell amplitudes
+  void buildHitAndEnergyMean(double emin, double emax);
+  /// \brief Peform the calibration and flag the bad channel map
+  /// Average energy per hit histogram is fitted with a gaussian
+  /// good area is +-mSigma
+  /// cells beyond that value are flagged as bad.
+  void analyzeSlot();
 
-            /// \brief Average energy per hit is caluclated for each cell.
-            /// \param emin -- min. energy for cell amplitudes
-            /// \param emax -- max. energy for cell amplitudes
-            void buildHitAndEnergyMean(double emin, double emax);
-            /// \brief Peform the calibration and flag the bad channel map
-            /// Average energy per hit histogram is fitted with a gaussian
-            /// good area is +-mSigma
-            /// cells beyond that value are flagged as bad.
-            void analyzeSlot();
+  int getNsigma() const { return mSigma; }
+  void setNsigma(int ns) { mSigma = ns; }
 
-            int getNsigma() const { return mSigma; }
-            void setNsigma(int ns) { mSigma = ns; }
-            
-        private:
-            boostHisto mEsumHisto;     ///< contains the average energy per hit for each cell
-            boostHisto mCellAmplitude; ///< is the input for the calibration, hist of cell E vs. ID
-            int mSigma = 4;            ///< number of sigma used in the calibration to define outliers
-            BadChannelMap mOutputBCM;  ///< bad channel map we will write the results to
-            int NCELLS = 0;            ///< number of cells in EMCAL + DCAL
-        ClassDefNV(EMCALSlotCalib, 1);
-    };
+ private:
+  boostHisto mEsumHisto;     ///< contains the average energy per hit for each cell
+  boostHisto mCellAmplitude; ///< is the input for the calibration, hist of cell E vs. ID
+  int mSigma = 4;            ///< number of sigma used in the calibration to define outliers
+  BadChannelMap mOutputBCM;  ///< bad channel map we will write the results to
+  int NCELLS = 0;            ///< number of cells in EMCAL + DCAL
+  ClassDefNV(EMCALSlotCalib, 1);
+};
 
 } // end namespace emcal
 } // end namespace o2

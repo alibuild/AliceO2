@@ -96,7 +96,7 @@ template <typename AxisIterator>
 class BinLowerView
 {
  public:
-  BinLowerView(AxisIterator iter): mBaseIterator(iter) {}
+  BinLowerView(AxisIterator iter) : mBaseIterator(iter) {}
   ~BinLowerView() = default;
   AxisIterator&
     operator++()
@@ -118,40 +118,43 @@ class BinLowerView
 };
 
 template <typename AxisIterator>
-BinCenterView<AxisIterator> operator+(BinCenterView<AxisIterator> lhs, int n) {
+BinCenterView<AxisIterator> operator+(BinCenterView<AxisIterator> lhs, int n)
+{
   BinCenterView<AxisIterator> result(lhs);
-  for(int i=0; i < n; i++){
+  for (int i = 0; i < n; i++) {
     ++result;
   }
   return result;
 }
 
 template <typename AxisIterator>
-BinUpperView<AxisIterator> operator+(BinUpperView<AxisIterator> lhs, int n) {
+BinUpperView<AxisIterator> operator+(BinUpperView<AxisIterator> lhs, int n)
+{
   BinUpperView<AxisIterator> result(lhs);
-  for(int i=0; i < n; i++){
+  for (int i = 0; i < n; i++) {
     ++result;
   }
   return result;
 }
 
 template <typename AxisIterator>
-BinLowerView<AxisIterator> operator+(BinLowerView<AxisIterator> lhs, int n) {
+BinLowerView<AxisIterator> operator+(BinLowerView<AxisIterator> lhs, int n)
+{
   BinLowerView<AxisIterator> result(lhs);
-  for(int i=0; i < n; i++){
+  for (int i = 0; i < n; i++) {
     ++result;
   }
   return result;
 }
 
 template <typename T, int nparams>
-class fitResult {
-public:
+class fitResult
+{
+ public:
   fitResult() = default;
 
-  fitResult(T chi2, const T(&list)[nparams]):
-    mChi2(chi2),
-    mFitParameters()
+  fitResult(T chi2, const T (&list)[nparams]) : mChi2(chi2),
+                                                mFitParameters()
   {
     memcpy(mFitParameters.data(), list, sizeof(T) * nparams);
   }
@@ -177,11 +180,11 @@ public:
   {
     mChi2 = chi2In;
   }
- T getChi2() const { return mChi2; }
-  private:
-  T mChi2;                          ///< chi2 of the fit
-  std::array<T, nparams> mFitParameters; ///< parameters of the fit (0-Constant, 1-Mean, 2-Sigma,  3-Sum)
+  T getChi2() const { return mChi2; }
 
+ private:
+  T mChi2;                               ///< chi2 of the fit
+  std::array<T, nparams> mFitParameters; ///< parameters of the fit (0-Constant, 1-Mean, 2-Sigma,  3-Sum)
 };
 
 /**
@@ -206,7 +209,7 @@ std::string createErrorMessage(FitGausError_t errorcode)
 /// \return result
 ///      result is of the type fitResult, which contains 4 parameters (0-Constant, 1-Mean, 2-Sigma,  3-Sum)
 ///
-/// ** Temp Note: For now we forgo the templated struct in favor of a std::vector in order to 
+/// ** Temp Note: For now we forgo the templated struct in favor of a std::vector in order to
 /// have this compile while we are working out the details
 template <typename T, typename Iterator, typename BinCenterView>
 std::vector<double> fitGaus(Iterator first, Iterator last, BinCenterView axisfirst)
@@ -260,22 +263,19 @@ std::vector<double> fitGaus(Iterator first, Iterator last, BinCenterView axisfir
   result.setParameter<3>(entries);
   */
   // create the result, first fill it with all 0's
-  std::vector<double> result; 
-  for(int r = 0; r < 5; r++){
-    result.push_back(0); 
+  std::vector<double> result;
+  for (int r = 0; r < 5; r++) {
+    result.push_back(0);
   }
   // then set the third parameter to entries
-  result.at(3) = entries; 
-
-  
-
+  result.at(3) = entries;
 
   int ibin = 0;
   Int_t npoints = 0;
   for (auto iter = first, axisiter = axisfirst; iter != last; iter++, axisiter++) {
     if (nbins > 1) {
       // Markus: For this we implemented the BinCenterView
-      double x = *axisfirst; 
+      double x = *axisfirst;
       double y = *iter;
       double ey = std::sqrt(y);
       fitter.AddPoint(&x, y, ey);
@@ -309,7 +309,7 @@ std::vector<double> fitGaus(Iterator first, Iterator last, BinCenterView axisfir
       fitter.GetParameters(par);
       fitter.GetCovarianceMatrix(mat);
       //result.setChi2(fitter.GetChisquare() / Double_t(npoints));
-      result.at(4) = (fitter.GetChisquare() / Double_t(npoints)); 
+      result.at(4) = (fitter.GetChisquare() / Double_t(npoints));
     }
     if (TMath::Abs(par[1]) < kTol) {
       throw FitGausError_t::FIT_ERROR;
@@ -323,8 +323,8 @@ std::vector<double> fitGaus(Iterator first, Iterator last, BinCenterView axisfir
     T param1 = T(par[1] / (-2. * par[2]));
     //result.setParameter<1>(param1);
     //result.setParameter<2>(T(1. / TMath::Sqrt(TMath::Abs(-2. * par[2]))));
-    result.at(1) = param1; 
-    result.at(2) = T(1. / TMath::Sqrt(TMath::Abs(-2. * par[2]))); 
+    result.at(1) = param1;
+    result.at(2) = T(1. / TMath::Sqrt(TMath::Abs(-2. * par[2])));
     auto lnparam0 = par[0] + par[1] * param1 + par[2] * param1 * param1;
     if (lnparam0 > 307) {
       throw FitGausError_t::FIT_ERROR;
@@ -345,10 +345,10 @@ std::vector<double> fitGaus(Iterator first, Iterator last, BinCenterView axisfir
     result.setParameter<2>(TMath::Sqrt(TMath::Abs(meanCOG * meanCOG - rms2COG)));
     result.setChi2(-2);
     */
-    result.at(0) = *xMax; 
-    result.at(1) = meanCOG; 
-    result.at(2) = TMath::Sqrt(TMath::Abs(meanCOG * meanCOG - rms2COG)); 
-    result.at(4) = -2; 
+    result.at(0) = *xMax;
+    result.at(1) = meanCOG;
+    result.at(2) = TMath::Sqrt(TMath::Abs(meanCOG * meanCOG - rms2COG));
+    result.at(4) = -2;
   }
   if (npoints == 1) {
     meanCOG /= sumCOG;
@@ -359,9 +359,9 @@ std::vector<double> fitGaus(Iterator first, Iterator last, BinCenterView axisfir
     result.setChi2(-1);
     */
     result.at(0) = *xMax;
-    result.at(1) = meanCOG; 
-    result.at(2) = binWidth / TMath::Sqrt(12); 
-    result.at(4) = -1; 
+    result.at(1) = meanCOG;
+    result.at(2) = binWidth / TMath::Sqrt(12);
+    result.at(4) = -1;
   }
   return result;
 }
