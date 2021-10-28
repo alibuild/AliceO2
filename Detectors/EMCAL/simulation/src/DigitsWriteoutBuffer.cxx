@@ -24,14 +24,15 @@ DigitsWriteoutBuffer::DigitsWriteoutBuffer(unsigned int nTimeBins, unsigned int 
                                                                                             mTimeBinWidth(binWidth)
 {
   //mTimedDigits.resize(nTimeBins);
-  for(int itime = 0; itime < nTimeBins;itime++) mTimedDigits.push_back(std::unordered_map<int, std::list<LabeledDigit>>());
+  for (int itime = 0; itime < nTimeBins; itime++)
+    mTimedDigits.push_back(std::unordered_map<int, std::list<LabeledDigit>>());
   mMarker.mReferenceTime = 0.;
   mMarker.mPositionInBuffer = mTimedDigits.begin();
 }
 
 void DigitsWriteoutBuffer::clear()
 {
-  std::cout << "Clearing ..." << std::endl; 
+  std::cout << "Clearing ..." << std::endl;
   mTimedDigits.clear();
   mMarker.mReferenceTime = 0.;
   mMarker.mPositionInBuffer = mTimedDigits.begin();
@@ -41,9 +42,9 @@ void DigitsWriteoutBuffer::addDigit(unsigned int towerID, LabeledDigit dig, doub
 {
   auto positionMarker = mMarker.mPositionInBuffer - mTimedDigits.begin();
   int nsamples = int((eventTime - mMarker.mReferenceTime) / mTimeBinWidth);
-  auto &timeEntry = *(mMarker.mPositionInBuffer + nsamples);
+  auto& timeEntry = *(mMarker.mPositionInBuffer + nsamples);
   auto towerEntry = timeEntry.find(towerID);
-  if(towerEntry == timeEntry.end()) {
+  if (towerEntry == timeEntry.end()) {
     towerEntry = timeEntry.insert(std::pair<int, std::list<o2::emcal::LabeledDigit>>(towerID, std::list<o2::emcal::LabeledDigit>())).first;
   }
   towerEntry->second.push_back(dig);
@@ -63,7 +64,6 @@ void DigitsWriteoutBuffer::forwardMarker(double eventTime)
   if (mMarker.mPositionInBuffer - mTimedDigits.begin() > mNumberReadoutSamples) {
     mTimedDigits.pop_front();
   }
-
 }
 
 gsl::span<std::unordered_map<int, std::list<LabeledDigit>>> DigitsWriteoutBuffer::getLastNSamples(int nsamples)

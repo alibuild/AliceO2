@@ -187,7 +187,7 @@ void Digitizer::setEventTime(double t)
   if (TMath::Abs(mEventTime - oldEventTime) > 100) {
     mDigits.forwardMarker(mEventTime);
   }
-  
+
   mPhase = ((int)((std::fmod(mEventTime, 100) + 12.5) / 25));
   mEventTimeOffset = ((int)((mEventTime - std::fmod(mEventTime, 100) + 0.1) / 100));
   if (mPhase == 4) {
