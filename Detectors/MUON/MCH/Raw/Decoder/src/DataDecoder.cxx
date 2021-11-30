@@ -157,8 +157,9 @@ bool DataDecoder::RawDigit::operator==(const DataDecoder::RawDigit& other) const
 bool DataDecoder::TimeFrameStartRecord::update(uint32_t orbit, uint32_t bunchCrossing, bool verbose)
 {
   if (verbose) {
-    std::cout<< fmt::format("[TimeFrameStartRecord::update()] orbit {}  current {}  prev {}  valid {}",
-        orbit, mOrbit, mOrbitPrev, mValid) << std::endl;
+    std::cout << fmt::format("[TimeFrameStartRecord::update()] orbit {}  current {}  prev {}  valid {}",
+                             orbit, mOrbit, mOrbitPrev, mValid)
+              << std::endl;
   }
 
   // if this is the first occurence, simply initialize the orbit and binch crossing and mark the start recortd as valid
@@ -201,8 +202,9 @@ bool DataDecoder::TimeFrameStartRecord::update(uint32_t orbit, uint32_t bunchCro
   }
 
   if (verbose)
-    std::cout<< fmt::format("[TimeFrameStartRecord::update()] set to {}/{}  prev {}/{}  valid {}",
-        mOrbit, mBunchCrossing, mOrbitPrev, mBunchCrossingPrev, mValid) << std::endl;
+    std::cout << fmt::format("[TimeFrameStartRecord::update()] set to {}/{}  prev {}/{}  valid {}",
+                             mOrbit, mBunchCrossing, mOrbitPrev, mBunchCrossingPrev, mValid)
+              << std::endl;
 
   return mValid;
 }
@@ -211,7 +213,8 @@ bool DataDecoder::TimeFrameStartRecord::check(int32_t orbit, uint32_t bunchCross
 {
   if (verbose)
     std::cout << fmt::format("[TimeFrameStartRecord::check()] current {}/{}  prev {}/{}",
-        orbit, bunchCrossing, mOrbitPrev, mBunchCrossingPrev) << std::endl;
+                             orbit, bunchCrossing, mOrbitPrev, mBunchCrossingPrev)
+              << std::endl;
 
   if (mOrbitPrev < 0) {
     return true;
@@ -226,7 +229,8 @@ bool DataDecoder::TimeFrameStartRecord::check(int32_t orbit, uint32_t bunchCross
 
   if (verbose)
     std::cout << fmt::format("  dOrbit {}  expected {}  expected20bits {}  bc {}  valid {}",
-        dOrbit, bcExpected, bcExpected20bits, bunchCrossing, result) << std::endl;
+                             dOrbit, bcExpected, bcExpected20bits, bunchCrossing, result)
+              << std::endl;
 
   return result;
 }
@@ -557,7 +561,9 @@ void DataDecoder::decodePage(gsl::span<const std::byte> page)
            s, chip, mFirstOrbitInTF, bunchCrossing, mSampaTimeOffset, bcTF);
     }
 
-    if (chipId >= DataDecoder::sReadoutChipsNum) { return; }
+    if (chipId >= DataDecoder::sReadoutChipsNum) {
+      return;
+    }
 
     if (!mTimeFrameStartRecords[chipId].update(mFirstOrbitInTF, bcTF)) {
       if (mErrorCount < MCH_DECODER_MAX_ERROR_COUNT) {
