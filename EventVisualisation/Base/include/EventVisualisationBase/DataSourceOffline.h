@@ -51,8 +51,8 @@ class DataSourceOffline : public DataSource
 
   void addEvent(VisualisationEvent const& event);
 
-  void changeDataFolder(std::string /*newFolder*/) override {};
-  void saveCurrentEvent(std::string /*targetFolder*/) override {};
+  void changeDataFolder(std::string /*newFolder*/) override{};
+  void saveCurrentEvent(std::string /*targetFolder*/) override{};
 };
 
 } // namespace event_visualisation

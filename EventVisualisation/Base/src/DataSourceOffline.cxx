@@ -47,11 +47,11 @@ std::vector<std::pair<VisualisationEvent, EVisualisationGroup>> DataSourceOfflin
 
     VisualisationEvent vEvent = mEvents.at(mCurrentEvent);
 
-    for(auto filter = EVisualisationGroup::ITS;
+    for (auto filter = EVisualisationGroup::ITS;
          filter != EVisualisationGroup::NvisualisationGroups;
          filter = static_cast<EVisualisationGroup>(static_cast<int>(filter) + 1)) {
       auto filtered = VisualisationEvent(vEvent, filter);
-      res.push_back(std::make_pair(filtered, filter));  // we can switch on/off data
+      res.push_back(std::make_pair(filtered, filter)); // we can switch on/off data
     }
   }
 
