@@ -62,14 +62,14 @@ void EventBuilderSpec::run(framework::ProcessingContext& ctx)
     int start = outputCells.size(),
         ncellsEvent = 0;
     for (auto [subspec, triggerrecord] : interaction.mRangesSubtimeframe) {
-      LOG(DEBUG) << interaction.mInteractionRecord.bc << " / " << interaction.mInteractionRecord.orbit << ": Receiving " << triggerrecord.getEntries() << " digits for subspec " << subspec;
+      LOG(debug) << interaction.mInteractionRecord.bc << " / " << interaction.mInteractionRecord.orbit << ": Receiving " << triggerrecord.getEntries() << " digits for subspec " << subspec;
       auto cellcont = cells.find(subspec);
       if (cellcont != cells.end()) {
         for (auto& cell : gsl::span<const Cell>(cellcont->second.data() + triggerrecord.getFirstEntry(), triggerrecord.getEntries())) {
           outputCells.emplace_back(cell);
         }
       } else {
-        LOG(ERROR) << "No cell container found for subspec " << subspec;
+        LOG(error) << "No cell container found for subspec " << subspec;
       }
     }
     if (ncellsEvent) {
