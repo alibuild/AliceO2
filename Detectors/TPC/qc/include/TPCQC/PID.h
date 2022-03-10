@@ -68,6 +68,7 @@ class PID
   /// return a map of vectors of histograms
   std::map<std::string_view, std::vector<TH1*>> getMapOfHisto() { return mapHist2D; }
   const std::map<std::string_view, std::vector<TH1*>> getMapOfHisto() const { return mapHist2D; }
+
  private:
   std::map<std::string_view, std::vector<TH1*>> mapHist2D;
   ClassDefNV(PID, 1)
