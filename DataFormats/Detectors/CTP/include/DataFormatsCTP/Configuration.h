@@ -17,6 +17,7 @@
 #define _CTP_CONFIGURATION_H_
 #include "DetectorsCommonDataFormats/DetID.h"
 #include "CommonConstants/LHCConstants.h"
+#include "DataFormatsCTP/Scalers.h"
 #include <string>
 #include <vector>
 #include <bitset>
@@ -139,6 +140,18 @@ class CTPConfiguration
   int processConfigurationLineRun3(std::string& line, int& level);
   int processConfigurationLine(std::string& line, int& level);
   ClassDefNV(CTPConfiguration, 3);
+};
+class CTPRunManager
+{
+ public:
+  CTPRunManager() = default;
+  int startRun(uint32_t runnumber, std::string& config);
+  //int stopRun(uint32_t runnumber);
+  //int addCounters(uint32_t runnumber);
+ private:
+   std::map<uint32_t,CTPConfiguration> mRunConfigurations;
+   std::map<uint32_t,CTPRunScalers> mRunScalers;
+   ClassDefNV(CTPRunManager, 1);
 };
 } // namespace ctp
 } // namespace o2

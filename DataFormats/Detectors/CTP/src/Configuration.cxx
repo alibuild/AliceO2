@@ -13,6 +13,8 @@
 /// \author Roman Lietava
 
 #include "DataFormatsCTP/Configuration.h"
+#include "CCDB/CcdbApi.h"
+#include "CCDB/BasicCCDBManager.h"
 #include <iostream>
 #include <sstream>
 #include <regex>
@@ -530,4 +532,9 @@ std::vector<int> CTPConfiguration::getTriggerClassList() const
     }
   }
   return classlist;
+}
+//
+int CTPRunManager::startRun(uint32_t runnumber, std::string& config)
+{
+  return 0;
 }
