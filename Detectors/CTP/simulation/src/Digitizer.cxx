@@ -70,9 +70,9 @@ void Digitizer::calculateClassMask(const std::bitset<CTP_NINPUTS> ctpinpmask, st
 {
   classmask = 0;
   for (auto const& tcl : mCTPConfiguration->getCTPClasses()) {
-    if (tcl.descriptor->getInputsMask() & ctpinpmask.to_ullong()) {
-      classmask |= (1 << tcl.classMask);
-    }
+    //if (tcl.descriptor->getInputsMask() & ctpinpmask.to_ullong()) {
+    //  classmask |= (1 << tcl.classMask);
+    //}
   }
 }
 void Digitizer::init()

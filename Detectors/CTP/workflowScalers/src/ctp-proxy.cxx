@@ -37,8 +37,6 @@
 #include <fairmq/FairMQDevice.h>
 #include "CommonUtils/StringUtils.h"
 #include "DataFormatsCTP/Configuration.h"
-#include "CCDB/CcdbApi.h"
-#include "CCDB/BasicCCDBManager.h"
 #include <vector>
 #include <string>
 
@@ -48,8 +46,9 @@ InjectorFunction dcs2dpl()
 {
 
   auto timesliceId = std::make_shared<size_t>(0);
+  auto runMgr = std::make_shared<o2::ctp::CTPRunManager>();
 
-  return [timesliceId](TimingInfo&, FairMQDevice& device, FairMQParts& parts, ChannelRetriever channelRetriever) {
+  return [timesliceId, runMgr](TimingInfo&, FairMQDevice& device, FairMQParts& parts, ChannelRetriever channelRetriever) {
     // make sure just 2 messages received
     if (parts.Size() != 2) {
       LOG(error) << "received " << parts.Size() << " instead of 2 expected";
@@ -61,20 +60,9 @@ InjectorFunction dcs2dpl()
     LOG(info) << "received message " << messageHeader << " of size " << dataSize; // << " Payload:" << messageData;
     if ((messageHeader.find("ctpconfig") != std::string::npos) && (dataSize < 2000)) {
       LOG(info) << "CTP config received";
-      o2::ctp::CTPConfiguration ctpconfig;
-      ctpconfig.loadConfigurationRun3(messageData);
-      // data base
-      long tmin = 0;
-      long tmax = -1;
-      std::string ccdbHost = "http://ccdb-test.cern.ch:8080";
-      o2::ccdb::CcdbApi api;
-      map<string, string> metadata; // can be empty
-      api.init(ccdbHost.c_str());   // or http://localhost:8080 for a local installation
-      // store abitrary user object in strongly typed manner
-      api.storeAsTFileAny(&ctpconfig, o2::ctp::CCDBPathCTPConfig, metadata, tmin, tmax);
-      LOG(info) << "CTP config in database" << std::endl
-                << std::flush;
+      runMgr->startRun(0,messageData);
     } else {
+      runMgr->processScalers(messageData);
       o2::header::DataHeader hdrF("CTP_COUNTERS", o2::header::gDataOriginCTP, 0);
       OutputSpec outsp{hdrF.dataOrigin, hdrF.dataDescription, hdrF.subSpecification};
       auto channel = channelRetriever(outsp, *timesliceId);
@@ -82,7 +70,6 @@ InjectorFunction dcs2dpl()
         LOG(error) << "No output channel found for OutputSpec " << outsp;
         return;
       }
-
       hdrF.tfCounter = *timesliceId; // this also
       hdrF.payloadSerializationMethod = o2::header::gSerializationMethodNone;
       hdrF.splitPayloadParts = 1;

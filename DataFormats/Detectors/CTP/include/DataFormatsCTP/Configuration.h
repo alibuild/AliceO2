@@ -23,6 +23,7 @@
 #include <bitset>
 #include <map>
 #include <set>
+#include <array>
 namespace o2
 {
 namespace ctp
@@ -58,9 +59,10 @@ struct CTPInput {
 struct CTPDescriptor {
   CTPDescriptor() = default;
   std::string name;
+  std::string definition;
   std::vector<CTPInput*> inputs;
   std::uint64_t getInputsMask() const;
-  void printStream(std::ostream& strem) const;
+  void printStream(std::ostream& stream) const;
   ClassDefNV(CTPDescriptor, 2)
 };
 /// The main part is Local Trigger Generator (LTG)
@@ -76,7 +78,7 @@ struct CTPDetector {
 };
 struct CTPCluster {
   CTPCluster() = default;
-  std::string name;
+  std::string name = "none";
   uint32_t hwMask;
   o2::detectors::DetID::mask_t maskCluster;
   std::string getClusterDetNames() const { return o2::detectors::DetID::getNames(maskCluster, ' '); }
@@ -85,12 +87,14 @@ struct CTPCluster {
 };
 struct CTPClass {
   CTPClass() = default;
+  CTPClass( const CTPClass& ctpclass);
+  CTPClass& operator=(const CTPClass& ctpclass);
+  ~CTPClass(){};
   std::string name;
   std::uint64_t classMask;
-  CTPDescriptor const* descriptor = nullptr;
-  CTPCluster const* cluster = nullptr;
-  int clusterIndex;
-  ;
+  //CTPDescriptor const* descriptor = nullptr;
+  //CTPCluster const* cluster = nullptr;
+  //int clusterIndex;
   void printStream(std::ostream& strem) const;
   ClassDefNV(CTPClass, 2);
 };
@@ -100,13 +104,15 @@ class CTPConfiguration
   CTPConfiguration() = default;
   bool isDetector(const o2::detectors::DetID& det);
   void capitaliseString(std::string& str);
-  enum ConfigPart { MASKS,
+  enum ConfigPart { RUN,
+                    MASKS,
                     GENS,
                     INPUT,
                     LTG,
                     LTGitems,
                     CLUSTER,
-                    CLASS };
+                    CLASS,
+                    UNKNOWN };
   int loadConfigurationRun3(const std::string& ctpconfiguartion);
   int loadConfiguration(const std::string& ctpconfiguartion);
   void addBCMask(const BCMask& bcmask);
@@ -126,10 +132,13 @@ class CTPConfiguration
   std::map<o2::detectors::DetID::ID, std::vector<CTPInput>> getDet2InputMap();
   uint64_t getTriggerClassMask() const;
   std::vector<int> getTriggerClassList() const;
-
+  uint32_t getRunNumber() { return mRunNumber; };
+  void setRunNumber(uint32_t runnumber){ mRunNumber = runnumber; };
  private:
   std::string mName;
-  std::string mVersion;
+  std::string mVersion = "0";
+  uint32_t mRunNumber = 0;
+
   std::vector<BCMask> mBCMasks;
   std::vector<CTPGenerator> mGenerators;
   std::vector<CTPInput> mInputs;
@@ -139,19 +148,37 @@ class CTPConfiguration
   std::vector<CTPClass> mCTPClasses;
   int processConfigurationLineRun3(std::string& line, int& level);
   int processConfigurationLine(std::string& line, int& level);
-  ClassDefNV(CTPConfiguration, 3);
+  ClassDefNV(CTPConfiguration, 4);
+};
+struct activeRun {
+  activeRun() = default;
+  CTPConfiguration ctpConfig;
+  CTPRunScalers ctpScalers;
+  long Tmin = 0;
+  long Tmax = -1;
+  bool inspected = false;
 };
 class CTPRunManager
 {
  public:
   CTPRunManager() = default;
   int startRun(uint32_t runnumber, std::string& config);
-  //int stopRun(uint32_t runnumber);
-  //int addCounters(uint32_t runnumber);
+  int stopRun(uint32_t runnumber);
+  int startRunCounters(uint32_t runnumber);
+  int updateCounters(uint32_t runnumber);
+  int processScalers(std::string& scalers);
+  int storeConfigInCcdb(uint32_t runnumber);
+  void setCcdbHost(std::string host);
+  int loadScalerNames();
+  void printActiveRuns();
  private:
-   std::map<uint32_t,CTPConfiguration> mRunConfigurations;
-   std::map<uint32_t,CTPRunScalers> mRunScalers;
-   ClassDefNV(CTPRunManager, 1);
+  int rr = 333;
+  const uint32_t NRUNS = 15;
+  std::array<uint32_t,CTPRunScalers::NCOUNTERS> mCounters;;
+  std::string mCcdbHost = "http://ccdb-test.cern.ch:8080"; 
+  std::map<uint32_t,activeRun*> mActiveRuns;
+  std::map<std::string,uint32_t> mScalerName2Position;
+  ClassDefNV(CTPRunManager, 1);
 };
 } // namespace ctp
 } // namespace o2
