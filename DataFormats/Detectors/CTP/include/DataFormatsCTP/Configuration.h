@@ -87,11 +87,11 @@ struct CTPCluster {
 };
 struct CTPClass {
   CTPClass() = default;
-  CTPClass( const CTPClass& ctpclass);
-  CTPClass& operator=(const CTPClass& ctpclass);
-  ~CTPClass(){};
-  std::string name;
-  std::uint64_t classMask;
+  //CTPClass( const CTPClass& ctpclass);
+  //CTPClass& operator=(const CTPClass& ctpclass);
+  //~CTPClass(){};
+  std::string name = "none";
+  std::uint64_t classMask = 0ull;
   //CTPDescriptor const* descriptor = nullptr;
   //CTPCluster const* cluster = nullptr;
   //int clusterIndex;

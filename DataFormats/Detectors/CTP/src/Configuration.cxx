@@ -85,7 +85,7 @@ void CTPCluster::printStream(std::ostream& stream) const
   stream << std::endl;
 }
 //
-
+/*
 CTPClass::CTPClass(const CTPClass& ctpclass):
 name(ctpclass.name),
 classMask(ctpclass.classMask)
@@ -107,6 +107,7 @@ CTPClass& CTPClass::operator=(const CTPClass& ctpclass)
   }
   return *this;
 }
+* */
 void CTPClass::printStream(std::ostream& stream) const
 {
   stream << "CTP Class:" << name << " Hardware mask:" << classMask;
@@ -122,6 +123,7 @@ int CTPConfiguration::loadConfigurationRun3(const std::string& ctpconfiguration)
       cls.name="test";
       mCTPClasses.push_back(cls);
   LOG(info) << "Loading CTP configuration.";
+  return 0;
   std::istringstream iss(ctpconfiguration);
   int ret = 0;
   int level = MASKS;
@@ -133,7 +135,6 @@ int CTPConfiguration::loadConfigurationRun3(const std::string& ctpconfiguration)
     }
   }
   return ret;
-  return 0;
 }
 int CTPConfiguration::loadConfiguration(const std::string& ctpconfiguration)
 {
