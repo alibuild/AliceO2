@@ -60,7 +60,7 @@ InjectorFunction dcs2dpl()
     LOG(info) << "received message " << messageHeader << " of size " << dataSize; // << " Payload:" << messageData;
     if ((messageHeader.find("ctpconfig") != std::string::npos) && (dataSize < 2000)) {
       LOG(info) << "CTP config received";
-      runMgr->startRun(0,messageData);
+      runMgr->startRun(0, messageData);
     } else {
       runMgr->processScalers(messageData);
       o2::header::DataHeader hdrF("CTP_COUNTERS", o2::header::gDataOriginCTP, 0);

@@ -119,9 +119,9 @@ void CTPClass::printStream(std::ostream& stream) const
 /// Assuming Run2 format + LTG
 int CTPConfiguration::loadConfigurationRun3(const std::string& ctpconfiguration)
 {
-        CTPClass cls;
-      cls.name="test";
-      mCTPClasses.push_back(cls);
+  CTPClass cls;
+  cls.name = "test";
+  mCTPClasses.push_back(cls);
   LOG(info) << "Loading CTP configuration.";
   return 0;
   std::istringstream iss(ctpconfiguration);
@@ -597,30 +597,30 @@ int CTPRunManager::updateCounters(uint32_t runnumber)
 int CTPRunManager::processScalers(std::string& scalers)
 {
   std::vector<std::string> tokens = o2::utils::Str::tokenize(scalers, ' ');
-  if(tokens.size() != (CTPRunScalers::NCOUNTERS+1)) {
-    LOG(error) << "Scalers size wrong:" << tokens.size() << " expected:" << CTPRunScalers::NCOUNTERS+1;
+  if (tokens.size() != (CTPRunScalers::NCOUNTERS + 1)) {
+    LOG(error) << "Scalers size wrong:" << tokens.size() << " expected:" << CTPRunScalers::NCOUNTERS + 1;
     return 1;
   }
   double timeStamp = std::stod(tokens.at(0));
   LOG(info) << "Processing scalers, all good, time:" << timeStamp;
-  for(int i = 1; i < tokens.size(); i++) {
+  for (int i = 1; i < tokens.size(); i++) {
     mCounters[i] = std::stoull(tokens.at(i));
   }
   printActiveRuns();
-  for(int i = 0; i < NRUNS; i++) {
+  for (int i = 0; i < NRUNS; i++) {
     uint32_t run = mCounters[i];
     std::cout << i << " run  " << run << std::endl;
-    if(run > 0) {
-      std::map<uint32_t,activeRun*>::iterator iter = mActiveRuns.find(run);
-      if(iter != mActiveRuns.end()) {
+    if (run > 0) {
+      std::map<uint32_t, activeRun*>::iterator iter = mActiveRuns.find(run);
+      if (iter != mActiveRuns.end()) {
         // active run
         updateCounters(run);
         iter->second->inspected = true;
-      } 
+      }
     }
   }
-  for(auto & arun : mActiveRuns) {
-    if(arun.second->inspected == false) {
+  for (auto& arun : mActiveRuns) {
+    if (arun.second->inspected == false) {
       // stop run
       LOG(info) << "stopping run:" << arun.first;
       stopRun(arun.first);
@@ -638,16 +638,17 @@ int CTPRunManager::storeConfigInCcdb(uint32_t runnumber)
   o2::ccdb::CcdbApi api;
   std::cout << "here 2" << std::endl;
   map<string, string> metadata; // can be empty
-  api.init(mCcdbHost.c_str());   // or http://localhost:8080 for a local installation
+  api.init(mCcdbHost.c_str());  // or http://localhost:8080 for a local installation
   // store abitrary user object in strongly typed manner
   LOG(info) << "Going to save CTP config to database";
-  std::map<uint32_t,activeRun*>::iterator iter = mActiveRuns.find(runnumber);
-  if(iter != mActiveRuns.end()) {
+  std::map<uint32_t, activeRun*>::iterator iter = mActiveRuns.find(runnumber);
+  if (iter != mActiveRuns.end()) {
     long tmin = iter->second->Tmin;
     long tmax = iter->second->Tmax;
     CTPConfiguration* ctpcfg = &(iter->second->ctpConfig);
-    api.storeAsTFileAny( ctpcfg, o2::ctp::CCDBPathCTPConfig, metadata, tmin, tmax);
-    LOG(info) << "CTP config for run: << runnumber" << " saved in ccdb.";
+    api.storeAsTFileAny(ctpcfg, o2::ctp::CCDBPathCTPConfig, metadata, tmin, tmax);
+    LOG(info) << "CTP config for run: << runnumber"
+              << " saved in ccdb.";
   } else {
     LOG(info) << "storeConfigInCcdb: Run not found:" << runnumber;
     return 1;
@@ -658,8 +659,8 @@ int CTPRunManager::stopRun(uint32_t runnumber)
 {
   // save counters to ccdb
   std::cout << "stopping run 2:" << runnumber << std::endl;
-  std::map<uint32_t,activeRun*>::iterator iter = mActiveRuns.find(runnumber);
-  if(iter != mActiveRuns.end()) {
+  std::map<uint32_t, activeRun*>::iterator iter = mActiveRuns.find(runnumber);
+  if (iter != mActiveRuns.end()) {
     const auto now = std::chrono::system_clock::now();
     const long timeStamp = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
     iter->second->Tmax = timeStamp;
@@ -680,12 +681,12 @@ void CTPRunManager::setCcdbHost(std::string host)
 }
 int CTPRunManager::loadScalerNames()
 {
-  if(CTPRunScalers::NCOUNTERS != CTPRunScalers::scalerNames.size()) {
+  if (CTPRunScalers::NCOUNTERS != CTPRunScalers::scalerNames.size()) {
     LOG(fatal) << "NCOUNTERS:" << CTPRunScalers::NCOUNTERS << " different from names vector:" << CTPRunScalers::scalerNames.size();
     return 1;
   }
   // try to open files of no success use default
-  for(uint32_t i = 0; i < CTPRunScalers::scalerNames.size(); i++) {
+  for (uint32_t i = 0; i < CTPRunScalers::scalerNames.size(); i++) {
     mScalerName2Position[CTPRunScalers::scalerNames[i]] = i;
   }
   return 0;
@@ -693,7 +694,7 @@ int CTPRunManager::loadScalerNames()
 void CTPRunManager::printActiveRuns()
 {
   std::cout << "Active runs:";
-  for(auto const& arun: mActiveRuns) {
+  for (auto const& arun : mActiveRuns) {
     std::cout << arun.second->ctpConfig.getRunNumber() << " ";
   }
   std::cout << std::endl;

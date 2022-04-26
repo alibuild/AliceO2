@@ -32,7 +32,7 @@ void CreateCTPConfig(long tmin = 0, long tmax = -1, std::string ccdbHost = "http
   // run3 config
   //
   std::string cfgRun3str =
-"cluster clu1 fv0 ft0 fdd its mft mid mch tpc zdc tst tof \n\
+    "cluster clu1 fv0 ft0 fdd its mft mid mch tpc zdc tst tof \n\
 0 cl_ph 1 \n\
 ";
   // ctpcfg.loadConfiguration(cfgstr);
@@ -46,15 +46,14 @@ void CreateCTPConfig(long tmin = 0, long tmax = -1, std::string ccdbHost = "http
   map<string, string> metadata; // can be empty
   api.init(ccdbHost.c_str());   // or http://localhost:8080 for a local installation
   // store abitrary user object in strongly typed manner
-  try{
+  try {
     //api.storeAsTFileAny(&ctpcfg, o2::ctp::CCDBPathCTPConfig, metadata, tmin, tmax);
-  }
-  catch(...) {
+  } catch (...) {
     std::cout << "Error: can not wrote to database." << std::endl;
     return;
   }
   std::cout << "CTP config in database" << std::endl;
-  return ;
+  return;
   /// get frp, database
   auto& mgr = o2::ccdb::BasicCCDBManager::instance();
   mgr.setURL(ccdbHost);

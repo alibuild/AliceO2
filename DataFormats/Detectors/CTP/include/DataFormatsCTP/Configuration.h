@@ -133,7 +133,8 @@ class CTPConfiguration
   uint64_t getTriggerClassMask() const;
   std::vector<int> getTriggerClassList() const;
   uint32_t getRunNumber() { return mRunNumber; };
-  void setRunNumber(uint32_t runnumber){ mRunNumber = runnumber; };
+  void setRunNumber(uint32_t runnumber) { mRunNumber = runnumber; };
+
  private:
   std::string mName;
   std::string mVersion = "0";
@@ -171,13 +172,15 @@ class CTPRunManager
   void setCcdbHost(std::string host);
   int loadScalerNames();
   void printActiveRuns();
+
  private:
   int rr = 333;
   const uint32_t NRUNS = 15;
-  std::array<uint32_t,CTPRunScalers::NCOUNTERS> mCounters;;
-  std::string mCcdbHost = "http://ccdb-test.cern.ch:8080"; 
-  std::map<uint32_t,activeRun*> mActiveRuns;
-  std::map<std::string,uint32_t> mScalerName2Position;
+  std::array<uint32_t, CTPRunScalers::NCOUNTERS> mCounters;
+  ;
+  std::string mCcdbHost = "http://ccdb-test.cern.ch:8080";
+  std::map<uint32_t, activeRun*> mActiveRuns;
+  std::map<std::string, uint32_t> mScalerName2Position;
   ClassDefNV(CTPRunManager, 1);
 };
 } // namespace ctp

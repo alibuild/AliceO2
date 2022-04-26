@@ -82,13 +82,14 @@ class CTPRunScalers
   int convertRawToO2();
   int checkConsistency(const CTPScalerO2& scal0, const CTPScalerO2& scal1) const;
   int checkConsistency(const CTPScalerRecordO2& rec0, const CTPScalerRecordO2& rec1) const;
-  void setRunNumber(uint32_t runnum){ mRunNumber = runnum;};
-  uint32_t gerRunNumber(){return mRunNumber;};
-  uint32_t getRecordRawSize(){return mScalerRecordRaw.size(); };
+  void setRunNumber(uint32_t runnum) { mRunNumber = runnum; };
+  uint32_t gerRunNumber() { return mRunNumber; };
+  uint32_t getRecordRawSize() { return mScalerRecordRaw.size(); };
   //
   int parseZMQScalers(std::string zmqscalers);
   static const uint32_t NCOUNTERS = 1052; //or 1051 ?
   static std::vector<std::string> scalerNames;
+
  private:
   // map from class index to overflow
   // overflow counts how many time class scalerers overflowed
