@@ -210,9 +210,9 @@ class MaterialManager
 
  private:
   std::unordered_map<std::string, float> mDensityMap;
-  
+
   void createDensityMap();
-  
+
   MaterialManager() { createDensityMap(); }
 
   // Hide details by providing these private methods so it cannot happen that special settings

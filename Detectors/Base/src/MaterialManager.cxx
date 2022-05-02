@@ -92,12 +92,13 @@ const std::unordered_map<ECut, const char*> MaterialManager::mCutIDToName = {
   {ECut::kDCUTM, "DCUTM"},
   {ECut::kPPCUTM, "PPCUTM"},
   {ECut::kTOFMAX, "TOFMAX"}};
-  
+
 // Constructing a map between module names and local material density values
-void MaterialManager::createDensityMap() {
+void MaterialManager::createDensityMap()
+{
   std::string token;
   std::istringstream input(
-      o2::conf::SimMaterialParams::Instance().localDensityFactor);
+    o2::conf::SimMaterialParams::Instance().localDensityFactor);
   std::vector<std::string> inputModuleNames;
   std::vector<std::string> inputDensityValues;
   while (std::getline(input, token, ',')) {
@@ -106,10 +107,10 @@ void MaterialManager::createDensityMap() {
     inputDensityValues.push_back(token.substr(pos + 1));
   }
   std::vector<std::string> allModuleNames = {
-      "ABSO",   "CAVE", "COMP", "DIPO", "FRAME", "HALL", "MAG", "PIPE",
-      "SHIL",   "CPV",  "EMC",  "FDD",  "FT0",   "FV0",  "HMP", "ITS",
-      "MCH",    "MFT",  "MID",  "PHS",  "TOF",   "TPC",  "TRD", "ZDC",
-      "ALPIDE", "IT3",  "TRK",  "FT3",  "A3IP"};
+    "ABSO", "CAVE", "COMP", "DIPO", "FRAME", "HALL", "MAG", "PIPE",
+    "SHIL", "CPV", "EMC", "FDD", "FT0", "FV0", "HMP", "ITS",
+    "MCH", "MFT", "MID", "PHS", "TOF", "TPC", "TRD", "ZDC",
+    "ALPIDE", "IT3", "TRK", "FT3", "A3IP"};
   if (o2::conf::SimMaterialParams::Instance().globalDensityFactor < 0) {
     LOG(fatal) << "Negative value "
                << o2::conf::SimMaterialParams::Instance().globalDensityFactor
@@ -117,7 +118,7 @@ void MaterialManager::createDensityMap() {
   }
   for (std::size_t i = 0; i < allModuleNames.size(); i++) {
     mDensityMap[allModuleNames[i]] =
-        o2::conf::SimMaterialParams::Instance().globalDensityFactor;
+      o2::conf::SimMaterialParams::Instance().globalDensityFactor;
   }
   for (std::size_t i = 0; i < inputModuleNames.size(); i++) {
     if (std::find(allModuleNames.begin(), allModuleNames.end(),
@@ -138,7 +139,7 @@ void MaterialManager::Material(const char* modname, Int_t imat, const char* name
                                Float_t radl, Float_t absl, Float_t* buf, Int_t nwbuf)
 {
   TString uniquename = modname;
-  auto &densityFactor = mDensityMap[modname];
+  auto& densityFactor = mDensityMap[modname];
   uniquename.Append("_");
   uniquename.Append(name);
   if (TVirtualMC::GetMC()) {
@@ -173,7 +174,7 @@ void MaterialManager::Mixture(const char* modname, Int_t imat, const char* name,
                               Int_t nlmat, Float_t* wmat)
 {
   TString uniquename = modname;
-  auto &densityFactor = mDensityMap[modname];
+  auto& densityFactor = mDensityMap[modname];
   uniquename.Append("_");
   uniquename.Append(name);
 
