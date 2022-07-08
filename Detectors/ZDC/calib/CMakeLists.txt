@@ -46,7 +46,7 @@ o2_add_library(ZDCCalib
                  O2::ZDCReconstruction
                  O2::CommonUtils
                  O2::DetectorsCalibration
-	         O2::DetectorsDCS
+                 O2::DetectorsDCS
                  O2::Steer
                  Microsoft.GSL::GSL
                  ROOT::Core

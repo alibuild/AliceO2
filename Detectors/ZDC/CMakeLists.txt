@@ -10,7 +10,6 @@
 # or submit itself to any jurisdiction.
 
 if (ONNXRuntime::ONNXRuntime_FOUND)
-<<<<<<< Updated upstream
     add_subdirectory(fastsimulation)
 endif()
 add_subdirectory(base)
@@ -20,14 +19,4 @@ add_subdirectory(macro)
 add_subdirectory(raw)
 add_subdirectory(workflow)
 add_subdirectory(calib)
-=======
 add_subdirectory(fastsimulation)
-  endif()
-    add_subdirectory(base)
-      add_subdirectory(simulation)
-        add_subdirectory(reconstruction)
-          add_subdirectory(macro)
-            add_subdirectory(raw)
-              add_subdirectory(workflow)
-                add_subdirectory(calibration)
->>>>>>> Stashed changes
