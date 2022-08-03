@@ -56,7 +56,7 @@ ClusterFinderOriginal::ClusterFinderOriginal()
 }
 
 //_________________________________________________________________________________________________
-ClusterFinderOriginal::~ClusterFinderOriginal()// = default;
+ClusterFinderOriginal::~ClusterFinderOriginal() // = default;
 {
   std::cout << "MLEM  duration = " << mTimeMLEM.count() << " s" << std::endl;
   std::cout << "SPLIT duration = " << mTimeSplit.count() << " s" << std::endl;
@@ -857,7 +857,6 @@ void ClusterFinderOriginal::process()
   }
   auto tEnd = std::chrono::steady_clock::now();
   mTimeMLEM += tEnd - tStart;
-
 
   // split the precluster into clusters
   tStart = std::chrono::steady_clock::now();

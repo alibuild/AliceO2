@@ -224,7 +224,7 @@ bool MathiesonOriginal::LUT::get4points(float xMin, float yMin, float xMax, floa
   return true;
 }
 
-#define _mm_extract_f32(v, i)       _mm_cvtss_f32(_mm_shuffle_ps(v, v, i))
+#define _mm_extract_f32(v, i) _mm_cvtss_f32(_mm_shuffle_ps(v, v, i))
 //_________________________________________________________________________________________________
 bool MathiesonOriginal::LUT::get4pointsAVX2(float xMin, float yMin, float xMax, float yMax, std::array<double, 4>& val) const
 {
@@ -269,19 +269,17 @@ bool MathiesonOriginal::LUT::get4pointsAVX2(float xMin, float yMin, float xMax, 
   __m128i ixy1Vec = _mm256_cvtpd_epi32(xy1Vec);
 
   alignas(16) int ixy0[4]{
-        _mm_extract_epi32(ixy0Vec, 0),
-        _mm_extract_epi32(ixy0Vec, 1),
-        _mm_extract_epi32(ixy0Vec, 2),
-        _mm_extract_epi32(ixy0Vec, 3)
-  };
+    _mm_extract_epi32(ixy0Vec, 0),
+    _mm_extract_epi32(ixy0Vec, 1),
+    _mm_extract_epi32(ixy0Vec, 2),
+    _mm_extract_epi32(ixy0Vec, 3)};
   //_mm_stream_si128 ((__m128i*)(ixy0), ixy0Vec);
 
   alignas(16) int ixy1[4]{
     _mm_extract_epi32(ixy1Vec, 0),
     _mm_extract_epi32(ixy1Vec, 1),
     _mm_extract_epi32(ixy1Vec, 2),
-    _mm_extract_epi32(ixy1Vec, 3)
-};
+    _mm_extract_epi32(ixy1Vec, 3)};
   //_mm_stream_si128 ((__m128i*)(ixy1), ixy1Vec);
 
   // 2D grid values at the four corners around the interpolation points:
@@ -351,21 +349,20 @@ bool MathiesonOriginal::LUT::get4pointsAVX2(float xMin, float yMin, float xMax, 
   // f10
   __m256d c100 = _mm256_permute4x64_pd(xyrVec, 0b01000100); // v[0],v[1],v[2],v[3] -> v[0],v[1],v[0],v[1]
   tmp = _mm256_mul_pd(f10Vec, c100);
-  __m256d c101 = c001;                                      // v[0],v[1],v[2],v[3] -> v[2],v[2],v[3],v[3]
+  __m256d c101 = c001; // v[0],v[1],v[2],v[3] -> v[2],v[2],v[3],v[3]
   __m256d c10 = _mm256_mul_pd(tmp, c101);
 
   // f01
-  __m256d c010 = c000;                                      // v[0],v[1],v[2],v[3] -> v[0],v[1],v[0],v[1]
+  __m256d c010 = c000; // v[0],v[1],v[2],v[3] -> v[0],v[1],v[0],v[1]
   tmp = _mm256_mul_pd(f01Vec, c010);
   __m256d c011 = _mm256_permute4x64_pd(xyrVec, 0b11111010); // v[0],v[1],v[2],v[3] -> v[2],v[2],v[3],v[3]
   __m256d c01 = _mm256_mul_pd(tmp, c011);
 
   // f11
-  __m256d c110 = c100;                    // v[0],v[1],v[2],v[3] -> v[0],v[1],v[0],v[1]
+  __m256d c110 = c100; // v[0],v[1],v[2],v[3] -> v[0],v[1],v[0],v[1]
   tmp = _mm256_mul_pd(f11Vec, c110);
-  __m256d c111 = c011;                    // v[0],v[1],v[2],v[3] -> v[2],v[2],v[3],v[3]
+  __m256d c111 = c011; // v[0],v[1],v[2],v[3] -> v[2],v[2],v[3],v[3]
   __m256d c11 = _mm256_mul_pd(tmp, c111);
-
 
   __m256d outVec = _mm256_add_pd(_mm256_add_pd(c00, c10), _mm256_add_pd(c01, c11));
   //alignas(32) double out[4];
@@ -445,19 +442,20 @@ double MathiesonOriginal::integrateLUT(float xMin, float yMin, float xMax, float
   //mLUT.get4points(xMin, yMin, xMax, yMax, i);
 
   if (false) {
-  std::array<double, 4> delta;
-  delta[0] = i[0] / 100;
-  delta[1] = i[1] / 100;
-  delta[2] = i[2] / 100;
-  delta[3] = i[3] / 100;
+    std::array<double, 4> delta;
+    delta[0] = i[0] / 100;
+    delta[1] = i[1] / 100;
+    delta[2] = i[2] / 100;
+    delta[3] = i[3] / 100;
 
-  if ((std::fabs(i[0] - i2[0]) > delta[0]) ||
-      (std::fabs(i[1] - i2[1]) > delta[1]) ||
-      (std::fabs(i[2] - i2[2]) > delta[2]) ||
-      (std::fabs(i[3] - i2[3]) > delta[3])) {
-    std::cout << fmt::format("[get4points]: {}/{}  {}/{}  {}/{}  {}/{}",
-        i[0], i2[0], i[1], i2[1], i[2], i2[2], i[3], i2[3]) << std::endl;
-  }
+    if ((std::fabs(i[0] - i2[0]) > delta[0]) ||
+        (std::fabs(i[1] - i2[1]) > delta[1]) ||
+        (std::fabs(i[2] - i2[2]) > delta[2]) ||
+        (std::fabs(i[3] - i2[3]) > delta[3])) {
+      std::cout << fmt::format("[get4points]: {}/{}  {}/{}  {}/{}  {}/{}",
+                               i[0], i2[0], i[1], i2[1], i[2], i2[2], i[3], i2[3])
+                << std::endl;
+    }
   }
 
   return (i[0] - i[1] - i[2] + i[3]);
@@ -491,8 +489,7 @@ float MathiesonOriginal::integrate(float xMin, float yMin, float xMax, float yMa
   yMin *= mInversePitch;
   yMax *= mInversePitch;
 
-
-  double integral{ 0 };
+  double integral{0};
   if (mFastIntegral && mLUT.isIncluded(xMin, yMin) && mLUT.isIncluded(xMax, yMax)) {
     integral = integrateLUT(xMin, yMin, xMax, yMax);
 #ifdef DEBUG_LUT

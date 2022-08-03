@@ -131,10 +131,10 @@ class ClusterFinderOriginal
 
   PreClusterFinder mPreClusterFinder{}; ///< preclusterizer
 
-  std::chrono::duration<double> mTimeMLEM{}; ///< timer
+  std::chrono::duration<double> mTimeMLEM{};  ///< timer
   std::chrono::duration<double> mTimeSplit{}; ///< timer
-  std::chrono::duration<double> mTimeFit{}; ///< timer
-  std::chrono::duration<double> mTimeChi2{}; ///< timer
+  std::chrono::duration<double> mTimeFit{};   ///< timer
+  std::chrono::duration<double> mTimeChi2{};  ///< timer
 };
 
 } // namespace mch

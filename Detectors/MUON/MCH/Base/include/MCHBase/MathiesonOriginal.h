@@ -49,8 +49,7 @@ class MathiesonOriginal
   float integrate(float xMin, float yMin, float xMax, float yMax) const;
 
  private:
-  struct LUT
-  {
+  struct LUT {
     LUT() = default;
     LUT(int size, float min, float max);
     ~LUT();
@@ -59,7 +58,7 @@ class MathiesonOriginal
     float getY(int j) const { return ((mStep * j) + mMin); }
     void set(int i, int j, double val)
     {
-      if(mSize > 0) {
+      if (mSize > 0) {
         mTable[j][i] = val;
       }
     }
@@ -77,16 +76,15 @@ class MathiesonOriginal
       return true;
     }
 
-
     //std::vector<std::vector<double>> mTable{};
-    double** mTable{ nullptr };
-    int mSize{ 0 };
-    int mLUTSize{ 0 };
-    float mMin{ 0 };
-    float mMax{ 0 };
-    double mStep{ 0 };
-    double mInverseStep{ 0 };
-    double mInverseWidth{ 0 };
+    double** mTable{nullptr};
+    int mSize{0};
+    int mLUTSize{0};
+    float mMin{0};
+    float mMax{0};
+    double mStep{0};
+    double mInverseStep{0};
+    double mInverseWidth{0};
   } mLUT;
 
   double integrateAnalytic(float xMin, float yMin, float xMax, float yMax) const;
