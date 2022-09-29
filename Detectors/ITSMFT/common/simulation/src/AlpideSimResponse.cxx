@@ -37,7 +37,7 @@ void AlpideSimResponse::initData(int tableNumber, std::string dataPath)
    */
   if (tableNumber == 0) // 0V back bias
   {
-    const std::string newDataPath = dataPath + "Vbb-0.0V"; 
+    const std::string newDataPath = dataPath + "Vbb-0.0V";
     setDataPath(newDataPath);                               // setting the new data path
   } else if (tableNumber == 1)                              // -3V back bias
   {
