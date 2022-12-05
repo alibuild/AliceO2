@@ -63,8 +63,6 @@ void onUVClose(uv_handle_t* handle);
 class CCDBDownloader
 {
  public:
-
-
   /**
    * Timer starts for each socket when its respective transfer finishes, and is stopped when another transfer starts for that handle.
    * When the timer runs out it closes the socket. The period for which socket stays open is defined by socketTimoutMS.
@@ -80,8 +78,8 @@ class CCDBDownloader
   // ADD COMMENT
 
   /**
-    * Time for which sockets will stay open after last download finishes
-    */
+   * Time for which sockets will stay open after last download finishes
+   */
   int socketTimoutMS = 4000;
 
   /**
@@ -131,7 +129,6 @@ class CCDBDownloader
   void setSocketTimoutTime(int timoutMS);
 
  private:
-
   /**
    * Indicates whether the loop that the downloader is running on has been created by it or provided externally.
    * In case of external loop, the loop will not be closed after downloader is deleted.
@@ -341,7 +338,6 @@ class CCDBDownloader
    * Start the event loop. This function should be ran in the `loopThread`.
    */
   void runLoop();
-
 };
 
 /**
