@@ -127,7 +127,7 @@ o2::framework::ServiceSpec ArrowSupport::arrowBackendSpec()
                        auto &allDeviceMetrics = sm.deviceMetricsInfos;
                        auto &specs = sm.deviceSpecs;
                        auto &infos = sm.deviceInfos;
-                       
+
                        static auto stateMetric = DeviceMetricsHelper::createNumericMetric<uint64_t>(driverMetrics, "rate-limit-state");
                        static auto totalBytesCreatedMetric = DeviceMetricsHelper::createNumericMetric<uint64_t>(driverMetrics, "total-arrow-bytes-created");
                        static auto shmOfferConsumedMetric = DeviceMetricsHelper::createNumericMetric<uint64_t>(driverMetrics, "total-shm-offer-bytes-consumed");
