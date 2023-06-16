@@ -65,7 +65,7 @@ WorkflowSpec defineDataProcessing(ConfigContext const& configcontext)
     if (enableRootInp) {
       specs.emplace_back(o2::trd::getTRDConfigEventReaderSpec());
     }
-    LOGP(info," about to emplace getTrapConfigEventSpec");
+    LOGP(info, " about to emplace getTrapConfigEventSpec");
     specs.emplace_back(o2::trd::getTrapConfigEventSpec());
   }
 

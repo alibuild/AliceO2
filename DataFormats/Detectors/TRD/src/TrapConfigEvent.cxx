@@ -32,7 +32,7 @@ using namespace o2::trd;
 
 TrapConfigEvent::TrapConfigEvent()
 {
-  mConfigDataIndex.fill(-1);         //!< one block of data per mcm.
+  mConfigDataIndex.fill(-1); //!< one block of data per mcm.
   initialiseRegisters();
   setConfigSavedVersion(2);
 }
@@ -40,7 +40,7 @@ TrapConfigEvent::TrapConfigEvent()
 TrapConfigEvent::TrapConfigEvent(const TrapConfigEvent& A)
 {
   LOGP(info, "TrapConfigEvent Copy Constructor Called   .....");
-  mConfigDataIndex.fill(-1);         //!< one block of data per mcm.
+  mConfigDataIndex.fill(-1); //!< one block of data per mcm.
 }
 
 void TrapConfigEvent::initialiseRegisters()
@@ -480,18 +480,18 @@ void TrapConfigEvent::initialiseRegisters()
   mTrapRegisters[kNCUT].init("NCUT", 0x0D4C, 32, 148, 0, false, 32);
   mTrapRegisters[kPASACHM].init("PASACHM", 0x315C, 32, 149, 0, false, 19);
   // mTrapRegisters[kSMCMD].init("SMCMD", 0x0A04, 16, 0x0000);
-LOGP(info, " finished initing registers now to build the map : ");
-  //mTrapRegistersAddressIndexMap = std::make_unique<std::map<uint16_t, uint16_t>>();
+  LOGP(info, " finished initing registers now to build the map : ");
+  // mTrapRegistersAddressIndexMap = std::make_unique<std::map<uint16_t, uint16_t>>();
   for (int reg = 0; reg < kLastReg; ++reg) {
     // reindex to speed things up, this time by address, map instead of a rather large lookup table.
-  //  LOGP(info, "building map and on register {}", reg);
+    //  LOGP(info, "building map and on register {}", reg);
     auto addr = mTrapRegisters[reg].getAddr();
     mTrapRegistersAddressIndexMap[addr] = reg;
     // build index of wordnumbers, to speed up comparisons.
     // this indexes ::  [raw block offset:ignorechange]
     auto wordnumber = mTrapRegisters[reg].getWordNumber();
     mWordNumberIgnore.set(wordnumber) = mTrapRegisters[reg].getIgnoreChange();
- // LOGP(info," in {} {} {} ",__FILE__,__func__,__LINE__);
+    // LOGP(info," in {} {} {} ",__FILE__,__func__,__LINE__);
   }
   // build index of wordnumbers, to speed up comparisons.
 }
@@ -504,11 +504,11 @@ uint32_t TrapConfigEvent::getRegisterValue(const uint32_t regidx, const int mcmi
   if ((regidx < 0) || (regidx >= kLastReg) || (mcmidx < 0 || mcmidx >= o2::trd::constants::MAXMCMCOUNT)) {
     return 0; // TODO this could be a problem ?!
   }
-  int mcmoffset = 0;                                                                   // mcmidx * kTrapRegistersSize;                                 // get the start offset for this mcm
-  int regbase = mcmoffset + mTrapRegisters[regidx].getBase();                          // get the base of this register in the underlying storage block
-  int regoffset = regbase + mTrapRegisters[regidx].getDataWordNumber();                // get the offset to the register in question
+  int mcmoffset = 0;                                                                                                   // mcmidx * kTrapRegistersSize;                                 // get the start offset for this mcm
+  int regbase = mcmoffset + mTrapRegisters[regidx].getBase();                                                          // get the base of this register in the underlying storage block
+  int regoffset = regbase + mTrapRegisters[regidx].getDataWordNumber();                                                // get the offset to the register in question
   uint32_t data = mConfigData[mConfigDataIndex[mcmidx]].mRegisterData[regoffset] >> mTrapRegisters[regidx].getShift(); // get the data and shift it as needed
-  data &= mTrapRegisters[regidx].getMask();                                            // mask the data off as need be.
+  data &= mTrapRegisters[regidx].getMask();                                                                            // mask the data off as need be.
   LOGP(info, " returning data of {:08x}", data);
   return data;
 }
@@ -518,13 +518,13 @@ bool TrapConfigEvent::setRegisterValue(uint32_t data, uint32_t regidx, int mcmid
   if (regidx < 0 || regidx >= kLastReg || mcmidx < 0 || mcmidx >= o2::trd::constants::MAXMCMCOUNT) {
     return false;
   }
-  int mcmoffset = 0;                                                    // mcmidx * kTrapRegistersSize;                          // get the start offset for this mcm
+  int mcmoffset = 0; // mcmidx * kTrapRegistersSize;                          // get the start offset for this mcm
   if (mConfigDataIndex[mcmidx] == -1) {
     // we dont have this register in the data store yet.
     mConfigData.emplace_back(mcmidx);
     mConfigDataIndex[mcmidx] = mConfigData.size() - 1;
   }
-  uint32_t index= mConfigDataIndex[mcmidx];
+  uint32_t index = mConfigDataIndex[mcmidx];
   int regbase = mTrapRegisters[regidx].getBase();                       // get the base of this register in the underlying storage block
   int regoffset = regbase + mTrapRegisters[regidx].getDataWordNumber(); // get the offset to the register in question
   data &= mTrapRegisters[regidx].getMask();                             // mask the data off as need be.
@@ -913,35 +913,33 @@ void TrapConfigEvent::fill(const gsl::span<const TrapConfigEvent> input)
   LOGP(info, " fill called for TrapConfigEvent {} {} {}", __FILE__, __func__, __LINE__);
 }
 
-
-
 void TrapConfigEventTimeSlot::fill(const TrapConfigEventTimeSlot& input)
-{ 
+{
   a = 0;
-  LOGP(info," in {} {} {} ",__FILE__,__func__,__LINE__);
+  LOGP(info, " in {} {} {} ", __FILE__, __func__, __LINE__);
 };
 void TrapConfigEventTimeSlot::fill(const TrapConfigEvent& input)
 {
-  //  unpack a partial config event from 
-  LOGP(info," in {} {} {} ",__FILE__,__func__,__LINE__);
+  //  unpack a partial config event from
+  LOGP(info, " in {} {} {} ", __FILE__, __func__, __LINE__);
 };
-  void TrapConfigEventTimeSlot::fill(const gsl::span<const TrapConfigEventTimeSlot> input)
+void TrapConfigEventTimeSlot::fill(const gsl::span<const TrapConfigEventTimeSlot> input)
 {
   a = 0;
-  LOGP(info," in {} {} {} ",__FILE__,__func__,__LINE__);
+  LOGP(info, " in {} {} {} ", __FILE__, __func__, __LINE__);
 } // dummy!
-  void TrapConfigEventTimeSlot::merge(const TrapConfigEventTimeSlot* prev)
+void TrapConfigEventTimeSlot::merge(const TrapConfigEventTimeSlot* prev)
 {
   a = 0;
-  LOGP(info," in {} {} {} ",__FILE__,__func__,__LINE__);
+  LOGP(info, " in {} {} {} ", __FILE__, __func__, __LINE__);
 };
-  void TrapConfigEventTimeSlot::print()
+void TrapConfigEventTimeSlot::print()
 {
   a = 0;
-  LOGP(info," in {} {} {} ",__FILE__,__func__,__LINE__);
+  LOGP(info, " in {} {} {} ", __FILE__, __func__, __LINE__);
 };
-  void TrapConfigEventTimeSlot::reset()
+void TrapConfigEventTimeSlot::reset()
 {
-  a = 0; 
-  LOGP(info," in {} {} {} ",__FILE__,__func__,__LINE__);
+  a = 0;
+  LOGP(info, " in {} {} {} ", __FILE__, __func__, __LINE__);
 };

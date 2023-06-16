@@ -137,17 +137,17 @@ class TrapConfigEventParser
   uint32_t mOffsetToRegister = 0;
   //  std::map<int, std::tuple<std::string, int, int>> TrapRegisterMap_addr;
   // std::array<int, 0xe000> mTrapRegistersAddressIndex; // index by address into mTrapRegisters.
-  std::array<int, o2::trd::constants::MAXMCMCOUNT> mMcmParsingStatus{0};                                  // status of what was found, errors types in the parsing
-                                                                                                          //  std::array<uint32_t, o2::trd::constants::MAXHALFCHAMBER> mHalfChamberLastSeen;                          // timestamp
-                                                                                                          //  std::array<uint32_t, o2::trd::constants::MAXHALFCHAMBER> mHalfChamberSeenSinceLastWritten;              // timestamp
-                                                                                                          //  std::array<uint32_t, o2::trd::constants::MAXHALFCHAMBER> mHalfChamberFrequencyInAccumulation;           // frequency in accumulation period.
-                                                                                                          //  std::array<uint32_t, o2::trd::constants::MAXMCMCOUNT> mMCMLastSeen;                                     // timestamp
-                                                                                                          //  std::array<uint32_t, o2::trd::constants::MAXMCMCOUNT> mMCMSeenSinceLastWritten;                         // timestamp
-                                                                                                          //  std::array<uint32_t, o2::trd::constants::MAXMCMCOUNT> mMCMFrequencyInAccumulation;                      // frequency in accumulation.
-  std::array<int, 8 * 16> mcmSeen;                                                                        // the mcm has been seen with or with out error, local to a link
-  std::array<int, 8 * 16> mcmMCM;                                                                         // the mcm has been seen with or with out error, local to a link
-  std::array<int, 8 * 16> mcmROB;                                                                         // the mcm has been seen with or with out error, local to a link
-  std::array<int, 8 * 16> mcmSeenMissedRegister;                                                          // the mcm does not have a complete set of registers, local to a link
+  std::array<int, o2::trd::constants::MAXMCMCOUNT> mMcmParsingStatus{0}; // status of what was found, errors types in the parsing
+                                                                         //  std::array<uint32_t, o2::trd::constants::MAXHALFCHAMBER> mHalfChamberLastSeen;                          // timestamp
+                                                                         //  std::array<uint32_t, o2::trd::constants::MAXHALFCHAMBER> mHalfChamberSeenSinceLastWritten;              // timestamp
+                                                                         //  std::array<uint32_t, o2::trd::constants::MAXHALFCHAMBER> mHalfChamberFrequencyInAccumulation;           // frequency in accumulation period.
+                                                                         //  std::array<uint32_t, o2::trd::constants::MAXMCMCOUNT> mMCMLastSeen;                                     // timestamp
+                                                                         //  std::array<uint32_t, o2::trd::constants::MAXMCMCOUNT> mMCMSeenSinceLastWritten;                         // timestamp
+                                                                         //  std::array<uint32_t, o2::trd::constants::MAXMCMCOUNT> mMCMFrequencyInAccumulation;                      // frequency in accumulation.
+  std::array<int, 8 * 16> mcmSeen;                                       // the mcm has been seen with or with out error, local to a link
+  std::array<int, 8 * 16> mcmMCM;                                        // the mcm has been seen with or with out error, local to a link
+  std::array<int, 8 * 16> mcmROB;                                        // the mcm has been seen with or with out error, local to a link
+  std::array<int, 8 * 16> mcmSeenMissedRegister;                         // the mcm does not have a complete set of registers, local to a link
   bool firsttime = false;
   //  static bool mRegisterAddressMapInitialised;
   InteractionRecord mIR;

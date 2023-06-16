@@ -64,16 +64,16 @@ class CalibratorConfigEvents final : public o2::calibration::TimeSlotCalibration
 
  private:
   bool mInitCompleted;
-  const TRDCalibParams& mParams{TRDCalibParams::Instance()};         ///< reference to calibration parameters
-  size_t mTimeBeforeComparison{mParams.configEventAccumulationTime}; ///< time of accumulating data and before comparison will be done
-  bool mEnableOutput{false};                                         ///< enable output of configevent to a root file instead of the ccdb
-  bool mSaveAllChanges = false;                                      ///< Do we save all the changes to configs as they come in.
-  std::unique_ptr<TFile> mOutFile{nullptr};                          ///< output file
-  std::unique_ptr<TTree> mOutTree{nullptr};                          ///< output tree
-  o2::ccdb::CcdbObjectInfo mCCDBInfo;                                ///< CCDB infos filled with CCDB description of accompanying CCDB calibration object
-  o2::trd::TrapConfigEvent mCCDBObject;                              ///< CCDB calibration  object of TrapConfigEvent
-  std::vector<o2::ccdb::CcdbObjectInfo> mInfoVector;                 ///< vector of CCDB infos; each element is filled with CCDB description of accompanying CCDB calibration object
-  std::vector<o2::trd::TrapConfigEventTimeSlot> mObjectVector;       ///< vector of CCDB calibration objects waiting to be merged
+  const TRDCalibParams& mParams{TRDCalibParams::Instance()};               ///< reference to calibration parameters
+  size_t mTimeBeforeComparison{mParams.configEventAccumulationTime};       ///< time of accumulating data and before comparison will be done
+  bool mEnableOutput{false};                                               ///< enable output of configevent to a root file instead of the ccdb
+  bool mSaveAllChanges = false;                                            ///< Do we save all the changes to configs as they come in.
+  std::unique_ptr<TFile> mOutFile{nullptr};                                ///< output file
+  std::unique_ptr<TTree> mOutTree{nullptr};                                ///< output tree
+  o2::ccdb::CcdbObjectInfo mCCDBInfo;                                      ///< CCDB infos filled with CCDB description of accompanying CCDB calibration object
+  o2::trd::TrapConfigEvent mCCDBObject;                                    ///< CCDB calibration  object of TrapConfigEvent
+  std::vector<o2::ccdb::CcdbObjectInfo> mInfoVector;                       ///< vector of CCDB infos; each element is filled with CCDB description of accompanying CCDB calibration object
+  std::vector<o2::trd::TrapConfigEventTimeSlot> mObjectVector;             ///< vector of CCDB calibration objects waiting to be merged
   std::map<uint32_t, std::map<uint32_t, uint32_t>> mTrapValueFrequencyMap; //!< count of different value in the registers for a mcm,register used to find most frequent value for then collapsing into the TrapConfigEvent.
   ClassDefOverride(CalibratorConfigEvents, 1);
 };

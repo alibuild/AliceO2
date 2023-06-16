@@ -657,12 +657,12 @@ class TrapConfigEvent
 
  private:
   int a;
-  std::array<TrapRegInfo, kLastReg> mTrapRegisters;                            //!< store of layout of each block of mTrapRegisterSize, populated via initialiseRegisters
-  std::bitset<constants::MAXMCMCOUNT> mMCMPresent{0};                          //!< does the mcm actually receive data.
-  std::bitset<constants::MAXHALFCHAMBER> mHCIDPresent{0};                      //!< did the link actually receive data.
-  std::vector<MCMEvent> mConfigData;                                           //!< vector of register data blocks
-  std::array<int32_t, constants::MAXMCMCOUNT> mConfigDataIndex{-1};         //!< one block of data per mcm.
- std::map<uint16_t, uint16_t> mTrapRegistersAddressIndexMap; //!< map of address into mTrapRegisters, populated at the end of initialiseRegisters
+  std::array<TrapRegInfo, kLastReg> mTrapRegisters;                 //!< store of layout of each block of mTrapRegisterSize, populated via initialiseRegisters
+  std::bitset<constants::MAXMCMCOUNT> mMCMPresent{0};               //!< does the mcm actually receive data.
+  std::bitset<constants::MAXHALFCHAMBER> mHCIDPresent{0};           //!< did the link actually receive data.
+  std::vector<MCMEvent> mConfigData;                                //!< vector of register data blocks
+  std::array<int32_t, constants::MAXMCMCOUNT> mConfigDataIndex{-1}; //!< one block of data per mcm.
+  std::map<uint16_t, uint16_t> mTrapRegistersAddressIndexMap;       //!< map of address into mTrapRegisters, populated at the end of initialiseRegisters
   std::bitset<kTrapRegistersSize> mWordNumberIgnore;
   void initialiseRegisters();
 

@@ -339,27 +339,27 @@ int TrapConfigEventParser::parseBlockData(std::vector<uint32_t>& data, uint32_t 
             // mTrapValueFrequencyMap[mCurrentMCMID * TrapConfigEvent::kLastReg + mRegistersReadForCurrentMCM - 1][regdata]++;                         // count of different value in the registers for a mcm,register used to find probably value.
             // mTrapValueFrequencyMap[mCurrentMCMID * TrapConfigEvent::kLastReg + mRegistersReadForCurrentMCM - 1].insert(std::make_pair(regdata, 1)); // count of different value in the registers for a mcm,register used to find probably value.
           }
-          }
-        } else {
-          LOGP(debug, "if statement failed for currentmcmregister {:08x}  registerdata {:08x}", mRegistersReadForCurrentMCM, registerdata);
         }
+      } else {
+        LOGP(debug, "if statement failed for currentmcmregister {:08x}  registerdata {:08x}", mRegistersReadForCurrentMCM, registerdata);
+      }
 
-        mRegisterCount[mTrapConfigEvent.get()->getRegIndexByAddr(registeraddr)]++; // keep a count of seen and accepted registers
-        // if( mTrapRegisters[].CanIgnore()==false){
-        //   mMcMDataHasChanged[mRegistersReadForCurrentMCM]=true;
-        // }
-        if (getMCMParsingStatus(mCurrentMCMID) < 2) {
-          // this handles the gaps in registers, where it might be good (1) before and after the gap, but this should stay with status of gap.
-          setMCMParsingStatus(mCurrentMCMID, 1);
-        }
-        // } else {
-        //    LOGP(warn, "if (mCurrentMCMRegisters[mCurrentMCMID * kLastReg + mRegistersReadForCurrentMCM] != registerdata mCurrentMCMID:{} kLastReg:{} mRegistersReadForCurrentMCM:{} mCurrentMCMRegisters[mCurrentMCMID*kLastReg+mRegistersReadForCurrentMCM]=={} != {}", mCurrentMCMID, TrapConfigEvent::kLastReg, mRegistersReadForCurrentMCM, mCurrentMCMRegisters[mCurrentMCMID * TrapConfigEvent::kLastReg + mRegistersReadForCurrentMCM], registerdata);
-        // }
-        registeraddr += step;
-        header = header >> bwidth; // this is not used for the bwidth=31 case
-        if (idx >= end) {
-          LOGP(error, "no end markermore data, {} words read Config parsing getting out due to end of data at line : {}", idx, __LINE__);
-          return false;
+      mRegisterCount[mTrapConfigEvent.get()->getRegIndexByAddr(registeraddr)]++; // keep a count of seen and accepted registers
+      // if( mTrapRegisters[].CanIgnore()==false){
+      //   mMcMDataHasChanged[mRegistersReadForCurrentMCM]=true;
+      // }
+      if (getMCMParsingStatus(mCurrentMCMID) < 2) {
+        // this handles the gaps in registers, where it might be good (1) before and after the gap, but this should stay with status of gap.
+        setMCMParsingStatus(mCurrentMCMID, 1);
+      }
+      // } else {
+      //    LOGP(warn, "if (mCurrentMCMRegisters[mCurrentMCMID * kLastReg + mRegistersReadForCurrentMCM] != registerdata mCurrentMCMID:{} kLastReg:{} mRegistersReadForCurrentMCM:{} mCurrentMCMRegisters[mCurrentMCMID*kLastReg+mRegistersReadForCurrentMCM]=={} != {}", mCurrentMCMID, TrapConfigEvent::kLastReg, mRegistersReadForCurrentMCM, mCurrentMCMRegisters[mCurrentMCMID * TrapConfigEvent::kLastReg + mRegistersReadForCurrentMCM], registerdata);
+      // }
+      registeraddr += step;
+      header = header >> bwidth; // this is not used for the bwidth=31 case
+      if (idx >= end) {
+        LOGP(error, "no end markermore data, {} words read Config parsing getting out due to end of data at line : {}", idx, __LINE__);
+        return false;
       }
     }
   } else {
