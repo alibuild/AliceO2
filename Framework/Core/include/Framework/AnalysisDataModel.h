@@ -45,9 +45,9 @@ DECLARE_SOA_TABLE(BCs_000, "AOD", "BC", //! Root of data model for tables pointi
                   bc::RunNumber, bc::GlobalBC,
                   bc::TriggerMask);
 DECLARE_SOA_TABLE_VERSIONED(BCs_001, "AOD", "BC", 1, //! Root of data model for tables pointing to a bunch crossing
-                  o2::soa::Index<>,
-                  bc::RunNumber, bc::GlobalBC,
-                  bc::TriggerMask, bc::InputMask);
+                            o2::soa::Index<>,
+                            bc::RunNumber, bc::GlobalBC,
+                            bc::TriggerMask, bc::InputMask);
 
 using BCs = BCs_001; // current version
 using BC = BCs::iterator;

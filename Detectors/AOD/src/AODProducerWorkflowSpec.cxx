@@ -2091,7 +2091,7 @@ void AODProducerWorkflowDPL::run(ProcessingContext& pc)
       if (bcClassPair != bcToClassMask.end()) {
         masks = bcClassPair->second;
       } else {
-        masks = {0,0};
+        masks = {0, 0};
       }
     }
     bcCursor(runNumber,
