@@ -339,7 +339,10 @@ class EncodedBlocks
   using dictionaryType = std::variant<rans::RenormedSparseHistogram<source_T>, rans::RenormedDenseHistogram<source_T>>;
 #endif
 
-  void setHeader(const H& h) { mHeader = h; }
+  void setHeader(const H& h)
+  {
+    mHeader = h;
+  }
   const H& getHeader() const { return mHeader; }
   H& getHeader() { return mHeader; }
   std::shared_ptr<H> cloneHeader() const { return std::shared_ptr<H>(new H(mHeader)); } // for dictionary creation
