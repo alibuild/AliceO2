@@ -115,10 +115,11 @@ void O2MCApplicationBase::ConstructGeometry()
     mKeepStepFcn = [](TVirtualMC const*) { return true; };
   } else if (mCutParams.stepFilteringMacro.empty()) {
     // keep step based on min/max z cut and ZDC cylinder
-    mKeepStepFcn = [this](TVirtualMC const* mc) { float x, y, z;
-                                            mc->TrackPosition(x, y, z);
-                                            return !(z > mCutParams.ZmaxA || -z > mCutParams.ZmaxC || (std::abs(z) > mCutParams.tunnelZ && (x * x + y * y) > (mCutParams.maxRTrackingZDC * mCutParams.maxRTrackingZDC)));
-                                          };
+    mKeepStepFcn = [this](TVirtualMC const* mc) {
+      float x, y, z;
+      mc->TrackPosition(x, y, z);
+      return !(z > mCutParams.ZmaxA || -z > mCutParams.ZmaxC || (std::abs(z) > mCutParams.tunnelZ && (x * x + y * y) > (mCutParams.maxRTrackingZDC * mCutParams.maxRTrackingZDC)));
+    };
   } else {
     // load custom function from macro
     auto stepFilteringMacro = o2::utils::expandShellVarsInFileName(mCutParams.stepFilteringMacro);

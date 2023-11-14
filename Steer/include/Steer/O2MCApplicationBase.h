@@ -74,7 +74,6 @@ class O2MCApplicationBase : public FairMCApplication
   void initTrackRefHook();
   KeepStepFcn mKeepStepFcn;
 
-
   ClassDefOverride(O2MCApplicationBase, 1);
 };
 
