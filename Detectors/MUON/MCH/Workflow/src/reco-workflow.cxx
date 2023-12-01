@@ -111,10 +111,10 @@ WorkflowSpec defineDataProcessing(ConfigContext const& configcontext)
                                                              "TC-F-DIGITROFS"));
     } else {
       std::cout << "[TOTO] calling getTimeClusterFinderSpec()" << std::endl;
-    specs.emplace_back(o2::mch::getTimeClusterFinderSpec("mch-time-cluster-finder",
-                                                         "F-DIGITS",
-                                                         "F-DIGITROFS",
-                                                         "TC-F-DIGITROFS"));
+      specs.emplace_back(o2::mch::getTimeClusterFinderSpec("mch-time-cluster-finder",
+                                                           "F-DIGITS",
+                                                           "F-DIGITROFS",
+                                                           "TC-F-DIGITROFS"));
     }
   }
 

@@ -109,7 +109,7 @@ class ROFTimeClusterFinderV2
   gsl::span<const o2::mch::Digit> mDigits;        ///< input digits
   ROFVector mOutputROFs{};                        ///< output time cluster ROFs
   std::vector<bool> mRofHasPeak;
-  bool mDebug{false};                             ///< be more verbose
+  bool mDebug{false}; ///< be more verbose
 };
 
 } // namespace mch

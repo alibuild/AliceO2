@@ -235,9 +235,9 @@ void ROFTimeClusterFinder::storeROF(int32_t firstBin, int32_t lastBin)
 
 void ROFTimeClusterFinder::process()
 {
-  //if (mDebug) {
-    std::cout << "\n\n==================\n[ROFTimeClusterFinder] processing new TF\n"
-              << std::endl;
+  // if (mDebug) {
+  std::cout << "\n\n==================\n[ROFTimeClusterFinder] processing new TF\n"
+            << std::endl;
   //}
 
   initTimeBins();

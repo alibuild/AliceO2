@@ -197,27 +197,27 @@ class TimeClusterFinderTaskV2
          outRofs.size(), p2, extraMsg);
     mTFcount += 1;
 
-    std::vector<std::pair<int,int>> orbits = {
-        //{376285608, 1455},
-        //{376285618, 1075},
-        //{376293180, 2152},
-        //{376353595, 1807},
-        //{376376230, 1441},
-        //{376285604, 828},
-        //{376429114, 2550},
-        //{376670762, 2548},
-        //{376678313, 453},
-        //{376867115, 2335},
-        //{378166083, 1029}
-        //{376270496, 2752},
-        //{376300693, 3249},
-        //{376376238, 352},
-        //{376376238, 1843},
-        //{376421564, 1702}
-        //{376361141, 2781},
-        //{376784078, 3156}
+    std::vector<std::pair<int, int>> orbits = {
+      //{376285608, 1455},
+      //{376285618, 1075},
+      //{376293180, 2152},
+      //{376353595, 1807},
+      //{376376230, 1441},
+      //{376285604, 828},
+      //{376429114, 2550},
+      //{376670762, 2548},
+      //{376678313, 453},
+      //{376867115, 2335},
+      //{378166083, 1029}
+      //{376270496, 2752},
+      //{376300693, 3249},
+      //{376376238, 352},
+      //{376376238, 1843},
+      //{376421564, 1702}
+      //{376361141, 2781},
+      //{376784078, 3156}
     };
-    //int orbit = 376293180; //376285618; //376285608;
+    // int orbit = 376293180; //376285618; //376285608;
     for (auto o : orbits) {
       int orbit = o.first;
       int bc = o.second;
@@ -247,10 +247,11 @@ class TimeClusterFinderTaskV2
             break;
           }
           rofsOutput << fmt::format("{:>3}", id) << " " << fmt::format("{:>3}", rof.getBCWidth()) << (filter(rof) ? " + " : " - ")
-                << fmt::format("{:>10}", irof.getBCData().orbit) << " " << fmt::format("{:>4}", irof.getBCData().bc) << " " << fmt::format("{:>4} ", irof.getNEntries());
+                     << fmt::format("{:>10}", irof.getBCData().orbit) << " " << fmt::format("{:>4}", irof.getBCData().bc) << " " << fmt::format("{:>4} ", irof.getNEntries());
           for (int i = 0; i < irof.getNEntries(); i++) {
             rofsOutput << "*";
-            if (i > 100) break;
+            if (i > 100)
+              break;
           }
           rofsOutput << std::endl;
         }
@@ -279,10 +280,11 @@ class TimeClusterFinderTaskV2
           break;
         }
         rofsOutput << fmt::format("{:>3}", rof.getBCWidth()) << (filter(rof) ? " + " : " - ")
-                  << fmt::format("{:>10}", irof.getBCData().orbit) << " " << fmt::format("{:>4}", irof.getBCData().bc) << " " << fmt::format("{:>4} ", irof.getNEntries());
+                   << fmt::format("{:>10}", irof.getBCData().orbit) << " " << fmt::format("{:>4}", irof.getBCData().bc) << " " << fmt::format("{:>4} ", irof.getNEntries());
         for (int i = 0; i < irof.getNEntries(); i++) {
           rofsOutput << "*";
-          if (i > 100) break;
+          if (i > 100)
+            break;
         }
         rofsOutput << std::endl;
       }

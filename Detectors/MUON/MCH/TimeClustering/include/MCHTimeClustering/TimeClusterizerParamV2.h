@@ -26,7 +26,7 @@ struct TimeClusterizerParamV2 : public o2::conf::ConfigurableParamHelper<TimeClu
 
   bool onlyTrackable = true; ///< only output ROFs that match the trackable condition @see MCHROFFiltering/TrackableFilter
 
-  int maxClusterWidth = 1000 / 25; ///< initial width of time clusters, in BC units (default 1us)
+  int maxClusterWidth = 1000 / 25;  ///< initial width of time clusters, in BC units (default 1us)
   int peakSearchWindow = 20;        ///< width of the peak search window, in BC units
   int peakSearchNbins = 5;          ///< number of time bins for the peak search algorithm (must be an odd number >= 3)
   int peakSearchNDigitsMin = 10;    ///< minimum number of digits for peak candidates
