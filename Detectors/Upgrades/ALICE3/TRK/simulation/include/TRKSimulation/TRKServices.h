@@ -29,13 +29,13 @@ class TRKServices : public FairModule
   void createServices(TGeoVolume* motherVolume);
 
  protected:
-  float mRMin; // cm
-  float mZLength; // cm
+  float mRMin;      // cm
+  float mZLength;   // cm
   float mThickness; // cm
   float mX0;
-  float mRInIRISVacV; // cm
-  float mROutIRISVacV; // cm
-  float mZLengthIRISVacV; // cm
+  float mRInIRISVacV;       // cm
+  float mROutIRISVacV;      // cm
+  float mZLengthIRISVacV;   // cm
   float mThicknessIRISVacV; // cm
   ClassDefOverride(TRKServices, 1);
 };

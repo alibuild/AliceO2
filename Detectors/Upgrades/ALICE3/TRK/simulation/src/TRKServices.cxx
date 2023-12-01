@@ -62,7 +62,7 @@ void TRKServices::createMaterials()
 
   // Aluminium 5083 - alloy of Mn, Fe, Cu, Mg, Si, Zn, Cr, Ti, Al
   // https://www.smithmetal.com/5083.htm
-  float aAl5083[9] = {54.938, 55.845, 63.546, 24.305, 28.086, 65.38, 51.996, 47.867, 26.982}; 
+  float aAl5083[9] = {54.938, 55.845, 63.546, 24.305, 28.086, 65.38, 51.996, 47.867, 26.982};
   float zAl5083[9] = {25., 26., 29., 12., 14., 30., 24., 22., 13.};
   // Exact composition of the Al5083 alloy that will be used for the beam pipe needs to be checked
   float wAl5083[9] = {0.007, 0.004, 0.001, 0.0445, 0.004, 0.0025, 0.0015, 0.0015, 0.934};
@@ -73,7 +73,7 @@ void TRKServices::createMaterials()
 
   // AlBeMet AM162H is a nanocomposite, not an alloy
   // Considered here as well https://indico.cern.ch/event/1168385/contributions/5355805/attachments/2681743/4652030/Jul%2010%201030-1045%20AM%20(Hawaii)%20M1Or1C-05%20AlBeMet.pdf
-  float aAlBeMet[2] = {26.982, 9.012}; 
+  float aAlBeMet[2] = {26.982, 9.012};
   float zAlBeMet[2] = {13., 4.};
   float wAlBeMet[2] = {0.38, 0.62};
   float dAlBeMet = 2.071;
@@ -99,17 +99,18 @@ void TRKServices::createServices(TGeoVolume* motherVolume)
   motherVolume->AddNode(coldPlateVolume, 1, nullptr);
 
   // IRIS Tracker Vacuum Vessel
-  TGeoTube* irisVacuumVesselInnerTube = new TGeoTube("TRK_IRISVACUUMVESSEL_INNERTUBEsh", mRInIRISVacV, mRInIRISVacV + mThicknessIRISVacV, mZLengthIRISVacV/2.);
-  TGeoTube* irisVacuumVesselOuterTube = new TGeoTube("TRK_IRISVACUUMVESSEL_OUTERTUBEsh", mROutIRISVacV, mROutIRISVacV + mThicknessIRISVacV, mZLengthIRISVacV/2.);
-  TGeoTube* irisVacuumVesselWall = new TGeoTube("TRK_IRISVACUUMVESSEL_WALLsh", mRInIRISVacV, mROutIRISVacV + mThicknessIRISVacV, mThicknessIRISVacV/2.);
-  TGeoTranslation* irisVacVWallNegZ = new TGeoTranslation("IRISVACVWALLNEGZ", 0., 0., -mZLengthIRISVacV/2. - mThicknessIRISVacV/2.);
+  TGeoTube* irisVacuumVesselInnerTube = new TGeoTube("TRK_IRISVACUUMVESSEL_INNERTUBEsh", mRInIRISVacV, mRInIRISVacV + mThicknessIRISVacV, mZLengthIRISVacV / 2.);
+  TGeoTube* irisVacuumVesselOuterTube = new TGeoTube("TRK_IRISVACUUMVESSEL_OUTERTUBEsh", mROutIRISVacV, mROutIRISVacV + mThicknessIRISVacV, mZLengthIRISVacV / 2.);
+  TGeoTube* irisVacuumVesselWall = new TGeoTube("TRK_IRISVACUUMVESSEL_WALLsh", mRInIRISVacV, mROutIRISVacV + mThicknessIRISVacV, mThicknessIRISVacV / 2.);
+  TGeoTranslation* irisVacVWallNegZ = new TGeoTranslation("IRISVACVWALLNEGZ", 0., 0., -mZLengthIRISVacV / 2. - mThicknessIRISVacV / 2.);
   irisVacVWallNegZ->RegisterYourself();
-  TGeoTranslation* irisVacVWallPosZ = new TGeoTranslation("IRISVACVWALLPOSZ", 0., 0., mZLengthIRISVacV/2. + mThicknessIRISVacV/2.);
+  TGeoTranslation* irisVacVWallPosZ = new TGeoTranslation("IRISVACVWALLPOSZ", 0., 0., mZLengthIRISVacV / 2. + mThicknessIRISVacV / 2.);
   irisVacVWallPosZ->RegisterYourself();
-  TString irisCompositeFormula = "TRK_IRISVACUUMVESSEL_INNERTUBEsh"
-                                  "+TRK_IRISVACUUMVESSEL_OUTERTUBEsh"
-                                  "+TRK_IRISVACUUMVESSEL_WALLsh:IRISVACVWALLNEGZ"
-                                  "+TRK_IRISVACUUMVESSEL_WALLsh:IRISVACVWALLPOSZ";
+  TString irisCompositeFormula =
+    "TRK_IRISVACUUMVESSEL_INNERTUBEsh"
+    "+TRK_IRISVACUUMVESSEL_OUTERTUBEsh"
+    "+TRK_IRISVACUUMVESSEL_WALLsh:IRISVACVWALLNEGZ"
+    "+TRK_IRISVACUUMVESSEL_WALLsh:IRISVACVWALLPOSZ";
   TGeoCompositeShape* irisVacuumVesselComposite = new TGeoCompositeShape("TRK_IRISVACUUMVESSELsh", irisCompositeFormula);
   const TGeoMedium* medAl5083 = matmgr.getTGeoMedium("IRISVACUUMVESSEL_AL5083");
   TGeoVolume* irisVacuumVesselVolume = new TGeoVolume("TRK_IRISVACUUMVESSEL", irisVacuumVesselComposite, medAl5083);
@@ -120,7 +121,6 @@ void TRKServices::createServices(TGeoVolume* motherVolume)
   LOGP(info, "Creating IRIS Tracker vacuum vessel");
   LOGP(info, "Inserting {} in {} ", irisVacuumVesselVolume->GetName(), motherVolume->GetName());
   motherVolume->AddNode(irisVacuumVesselVolume, 1, nullptr);
-
 }
 // ClassImp(o2::trk::TRKServices);
 } // namespace trk
