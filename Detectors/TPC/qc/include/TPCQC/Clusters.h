@@ -61,8 +61,9 @@ class Clusters
 
   void dumpToFile(std::string filename, int type = 0);
 
-  void setnHBFperTF(float nHBFPerTF){
-     mNHBFperTF = nHBFPerTF;
+  void setnHBFperTF(float nHBFPerTF)
+  {
+    mNHBFperTF = nHBFPerTF;
   }
   const CalPad& getNClusters() const { return mNClusters; }
   const CalPad& getQMax() const { return mQMax; }
