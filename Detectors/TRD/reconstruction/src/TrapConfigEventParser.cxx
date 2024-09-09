@@ -610,7 +610,7 @@ int TrapConfigEventParser::parseLink(std::vector<uint32_t>& data, uint32_t start
       **********/
       parseBlockData(data, header, idx, end, fastforward);
     } // end block case
-  }   // end while
+  } // end while
   // printMCMRegisterCount(mCurrentHCID);
   if (dualmcm) {
     analyseEventBaseStats();

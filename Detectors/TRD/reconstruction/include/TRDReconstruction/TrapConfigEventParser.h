@@ -86,7 +86,7 @@ class TrapConfigEventParser
   std::array<int, TrapRegisters::kLastReg>& getStopRegArray() { return mStopReg; }        // the number of time this register was read as the last register
   std::array<int, TrapRegisters::kLastReg>& getMissedRegArray() { return mMissedReg; }    // the number of times this register was not read
   std::array<int, TrapRegisters::kLastReg>& getRegisterCount() { return mRegisterCount; } // total count for each register
-  void init(){};
+  void init() {};
   TrapConfigEvent getNewConfig() { return *(mTrapConfigEvent.get()); };
   TrapConfigEvent* getNewConfigPtr() { return mTrapConfigEvent.get(); };
   // TrapConfigEvent getNewConfig() { return *mTrapConfigEvent.get(); };
