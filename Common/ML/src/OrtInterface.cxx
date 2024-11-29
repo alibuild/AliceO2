@@ -113,19 +113,19 @@ void OrtModel::reset(std::unordered_map<std::string, std::string> optionsMap)
   (pImplOrt->sessionOptions).SetLogSeverityLevel(OrtLoggingLevel(loggingLevel));
 
   pImplOrt->env = std::make_shared<Ort::Env>(
-    OrtLoggingLevel(loggingLevel), 
+    OrtLoggingLevel(loggingLevel),
     (optionsMap["onnx-environment-name"].empty() ? "onnx_model_inference" : optionsMap["onnx-environment-name"].c_str()),
     // Integrate ORT logging into Fairlogger
     [](void* param, OrtLoggingLevel severity, const char* category, const char* logid, const char* code_location, const char* message) {
-      if(severity == ORT_LOGGING_LEVEL_VERBOSE) {
+      if (severity == ORT_LOGGING_LEVEL_VERBOSE) {
         LOG(debug) << "(ORT) [" << logid << "|" << category << "|" << code_location << "]: " << message;
-      } else if(severity == ORT_LOGGING_LEVEL_INFO) {
+      } else if (severity == ORT_LOGGING_LEVEL_INFO) {
         LOG(info) << "(ORT) [" << logid << "|" << category << "|" << code_location << "]: " << message;
-      } else if(severity == ORT_LOGGING_LEVEL_WARNING) {
+      } else if (severity == ORT_LOGGING_LEVEL_WARNING) {
         LOG(warning) << "(ORT) [" << logid << "|" << category << "|" << code_location << "]: " << message;
-      } else if(severity == ORT_LOGGING_LEVEL_ERROR) {
+      } else if (severity == ORT_LOGGING_LEVEL_ERROR) {
         LOG(error) << "(ORT) [" << logid << "|" << category << "|" << code_location << "]: " << message;
-      } else if(severity == ORT_LOGGING_LEVEL_FATAL) {
+      } else if (severity == ORT_LOGGING_LEVEL_FATAL) {
         LOG(fatal) << "(ORT) [" << logid << "|" << category << "|" << code_location << "]: " << message;
       } else {
         LOG(info) << "(ORT) [" << logid << "|" << category << "|" << code_location << "]: " << message;
