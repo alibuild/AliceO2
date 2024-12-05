@@ -204,10 +204,11 @@ void Detector::buildBasicFCT(const FCTBaseParam& param)
   }
 }
 
-void Detector::buildSegmentedFCT(const FCTBaseParam& param){
+void Detector::buildSegmentedFCT(const FCTBaseParam& param)
+{
   // Build the FCT with its layers segmented in trapezoids. The z distance is the same as the default configuration
   LOG(info) << "Building FCT Detector: Segmented Telescope";
-  
+
   int numberOfLayers = 11;
   Float_t layersx2X0 = 1.e-2;
   std::vector<std::array<Float_t, 4>> layersConfig{
@@ -227,8 +228,8 @@ void Detector::buildSegmentedFCT(const FCTBaseParam& param){
   mActiveName.clear();
   mLayers.clear();
 
-  Double_t segAngle = 2.*TMath::Pi() / (Double_t)param.nAziSeg;
-  const Float_t kRadDeg = 180./TMath::Pi();
+  Double_t segAngle = 2. * TMath::Pi() / (Double_t)param.nAziSeg;
+  const Float_t kRadDeg = 180. / TMath::Pi();
   int segmentNumber = 0;
   for (int layerNumber = 0; layerNumber < numberOfLayers; layerNumber++) {
     Double_t zPosTrap = layersConfig[layerNumber][0];
@@ -236,17 +237,17 @@ void Detector::buildSegmentedFCT(const FCTBaseParam& param){
     Double_t rOut = layersConfig[layerNumber][2];
     Double_t x2X0 = layersConfig[layerNumber][3];
     Double_t radialSegLength = (rOut - rIn) / ((Double_t)(param.nRadSeg));
-	  Double_t trapezoidVertLength = radialSegLength*TMath::Cos(segAngle/2.);
+    Double_t trapezoidVertLength = radialSegLength * TMath::Cos(segAngle / 2.);
     for (int radialNumber = 0; radialNumber < param.nRadSeg; radialNumber++) {
       for (int azimuthalNumber = 0; azimuthalNumber < param.nAziSeg; azimuthalNumber++) {
-        Double_t innerTrapLength = TMath::Sqrt(2. * (rIn + radialNumber * radialSegLength)*(rIn + radialNumber * radialSegLength) * (1. - TMath::Cos(segAngle)));
-        Double_t outerTrapLength = TMath::Sqrt(2. * (rIn + (radialNumber + 1) * radialSegLength)*(rIn + (radialNumber + 1) * radialSegLength) * (1. - TMath::Cos(segAngle)));
-        Double_t innerTrapCenterR = (rIn + radialNumber * radialSegLength)*TMath::Cos(segAngle/2.);
-        Double_t outerTrapCenterR = (rIn + (radialNumber + 1) * radialSegLength)*TMath::Cos(segAngle/2.);
-        Double_t rTrapCenter = outerTrapCenterR - 0.5*(outerTrapCenterR - innerTrapCenterR);
+        Double_t innerTrapLength = TMath::Sqrt(2. * (rIn + radialNumber * radialSegLength) * (rIn + radialNumber * radialSegLength) * (1. - TMath::Cos(segAngle)));
+        Double_t outerTrapLength = TMath::Sqrt(2. * (rIn + (radialNumber + 1) * radialSegLength) * (rIn + (radialNumber + 1) * radialSegLength) * (1. - TMath::Cos(segAngle)));
+        Double_t innerTrapCenterR = (rIn + radialNumber * radialSegLength) * TMath::Cos(segAngle / 2.);
+        Double_t outerTrapCenterR = (rIn + (radialNumber + 1) * radialSegLength) * TMath::Cos(segAngle / 2.);
+        Double_t rTrapCenter = outerTrapCenterR - 0.5 * (outerTrapCenterR - innerTrapCenterR);
         Double_t xPosTrap = rTrapCenter * TMath::Cos(azimuthalNumber * segAngle);
         Double_t yPosTrap = rTrapCenter * TMath::Sin(azimuthalNumber * segAngle);
-        Double_t xRot = -90 + azimuthalNumber*segAngle*kRadDeg;
+        Double_t xRot = -90 + azimuthalNumber * segAngle * kRadDeg;
         std::string segmentName = Form("%s_Lay_%d_Sec_%d_Mod_%d", o2::fct::GeometryTGeo::getFCTLayerPattern(), layerNumber, azimuthalNumber, radialNumber);
         mActiveName.push_back(segmentName);
         mSegments.emplace_back(layerNumber, azimuthalNumber, radialNumber, segmentName, xPosTrap, yPosTrap, zPosTrap, trapezoidVertLength, innerTrapLength, outerTrapLength, xRot, 0., 0., x2X0);
@@ -534,8 +535,8 @@ void Detector::ConstructGeometry()
       case Telescope:
         buildBasicFCT(fctBaseParam); // BasicFCT = Parametrized telescopic detector (equidistant layers)
         break;
-      case Segmented: 
-        buildSegmentedFCT(fctBaseParam); // Layers of the FCT are segmented in trapezoids. 
+      case Segmented:
+        buildSegmentedFCT(fctBaseParam); // Layers of the FCT are segmented in trapezoids.
         break;
       default:
         LOG(fatal) << "Invalid Geometry.\n";
@@ -594,20 +595,24 @@ void Detector::createGeometry()
     for (Int_t iLayer = 0; iLayer < mConverterLayers.size(); iLayer++) {
       mConverterLayers[iLayer].createLayer(volFCT);
     }
-    for (Int_t iSegment = 0; iSegment < mSegments.size(); iSegment++){
+    for (Int_t iSegment = 0; iSegment < mSegments.size(); iSegment++) {
       mSegments[iSegment].createSegment(volFCT);
     }
     vALIC->AddNode(volFCT, 2, new TGeoTranslation(0., 30., 0.));
   }
 
-  if(mLayers.size()){LOG(info) << "Registering FCT SensitiveLayerIDs:";}
+  if (mLayers.size()) {
+    LOG(info) << "Registering FCT SensitiveLayerIDs:";
+  }
   for (int iLayer = 0; iLayer < mLayers.size(); iLayer++) {
     auto layerID = gMC ? TVirtualMC::GetMC()->VolId(Form("%s_%d", GeometryTGeo::getFCTSensorPattern(), mLayers[iLayer].getLayerNumber())) : 0;
     mActiveID.push_back(layerID);
     LOG(info) << "  mActiveID[" << mLayers[iLayer].getLayerNumber() << "] = " << layerID;
   }
 
-  if(mSegments.size()){LOG(info) << "Registering FCT SensitiveSegmentIDs:";}
+  if (mSegments.size()) {
+    LOG(info) << "Registering FCT SensitiveSegmentIDs:";
+  }
   for (int iSegment = 0; iSegment < mSegments.size(); iSegment++) {
     auto segmentID = gMC ? TVirtualMC::GetMC()->VolId(Form("%s_Lay_%d_Sec_%d_Mod_%d", GeometryTGeo::getFCTSensorPattern(), mSegments[iSegment].getLayerNumber(), mSegments[iSegment].getSectorNumber(), mSegments[iSegment].getModuleNumber())) : 0;
     mActiveID.push_back(segmentID);
@@ -634,7 +639,7 @@ void Detector::defineSensitiveVolumes()
   for (Int_t iSegment = 0; iSegment < mSegments.size(); iSegment++) {
     v = geoManager->GetVolume(Form("%s_Lay_%d_Sec_%d_Mod_%d", GeometryTGeo::getFCTSensorPattern(), mSegments[iSegment].getLayerNumber(), mSegments[iSegment].getSectorNumber(), mSegments[iSegment].getModuleNumber()));
     LOG(info) << "Adding FCT Sensitive Volume => " << v->GetName();
-    AddSensitiveVolume(v);   
+    AddSensitiveVolume(v);
   }
 }
 

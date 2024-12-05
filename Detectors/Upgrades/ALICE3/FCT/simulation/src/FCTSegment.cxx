@@ -26,7 +26,7 @@
 #include <TGeoArb8.h>           // for TGeoTrap
 #include <TGeoVolume.h>         // for TGeoVolume, TGeoVolumeAssembly
 #include <TGeoCompositeShape.h> // for TGeoCompositeShape
-#include <TGeoMatrix.h>			// for TGeoCombiTrans
+#include <TGeoMatrix.h>         // for TGeoCombiTrans
 #include "TMathBase.h"          // for Abs
 #include <TMath.h>              // for Sin, RadToDeg, DegToRad, Cos, Tan, etc
 
@@ -42,12 +42,12 @@ FCTSegment::~FCTSegment() = default;
 
 FCTSegment::FCTSegment(Int_t layerNumber, Int_t sectorNumber, Int_t moduleNumber, std::string segmentName, Double_t x, Double_t y, Double_t z, Double_t vertL, Double_t innerL, Double_t outerL, Double_t rotX, Double_t rotY, Double_t rotZ, Float_t segmentx2X0) : mLayerNumber(layerNumber), mSectorNumber(sectorNumber), mModuleNumber(moduleNumber), mSegmentName(segmentName), mx2X0(segmentx2X0), mX(x), mY(y), mZ(z), mRotX(rotX), mRotY(rotY), mRotZ(rotZ), mVertL(vertL), mInnerL(innerL), mOuterL(outerL)
 {
-  
-  Float_t Si_X0 = 9.37;   // In cm
+
+  Float_t Si_X0 = 9.37; // In cm
   mChipThickness = mx2X0 * Si_X0;
   LOG(info) << "Creating FCT segment: Layer " << mLayerNumber << " Sector: " << mSectorNumber << " Module: " << mModuleNumber;
   LOG(info) << "   Using silicon X0 = " << Si_X0 << " to emulate segment radiation length.";
-  LOG(info) << "   Segment z = " << mZ << " ; vertL = " << mVertL << " ; innerL = " << mInnerL << " ; outerL = " << mOuterL <<  " ; x2X0 = " << mx2X0 << " ; ChipThickness = " << mChipThickness;
+  LOG(info) << "   Segment z = " << mZ << " ; vertL = " << mVertL << " ; innerL = " << mInnerL << " ; outerL = " << mOuterL << " ; x2X0 = " << mx2X0 << " ; ChipThickness = " << mChipThickness;
 }
 
 void FCTSegment::createSegment(TGeoVolume* motherVolume)
@@ -59,15 +59,15 @@ void FCTSegment::createSegment(TGeoVolume* motherVolume)
 
   std::string chipName = Form("%s_Lay_%d_Sec_%d_Mod_%d", o2::fct::GeometryTGeo::getFCTChipPattern(), mLayerNumber, mSectorNumber, mModuleNumber);
   std::string sensName = Form("%s_Lay_%d_Sec_%d_Mod_%d", GeometryTGeo::getFCTSensorPattern(), mLayerNumber, mSectorNumber, mModuleNumber);
-  TGeoTrap *sensor = new TGeoTrap(mChipThickness/2., 0., 0., 
-                                  mVertL/2., mInnerL/2., mOuterL/2., 0.,
-                                  mVertL/2., mInnerL/2., mOuterL/2., 0.);
-  TGeoTrap *chip = new TGeoTrap(mChipThickness/2., 0., 0., 
-                                  mVertL/2., mInnerL/2., mOuterL/2., 0.,
-                                  mVertL/2., mInnerL/2., mOuterL/2., 0.);
-  TGeoTrap *segment = new TGeoTrap(mChipThickness/2., 0., 0., 
-                                  mVertL/2., mInnerL/2., mOuterL/2., 0.,
-                                  mVertL/2., mInnerL/2., mOuterL/2., 0.);
+  TGeoTrap* sensor = new TGeoTrap(mChipThickness / 2., 0., 0.,
+                                  mVertL / 2., mInnerL / 2., mOuterL / 2., 0.,
+                                  mVertL / 2., mInnerL / 2., mOuterL / 2., 0.);
+  TGeoTrap* chip = new TGeoTrap(mChipThickness / 2., 0., 0.,
+                                mVertL / 2., mInnerL / 2., mOuterL / 2., 0.,
+                                mVertL / 2., mInnerL / 2., mOuterL / 2., 0.);
+  TGeoTrap* segment = new TGeoTrap(mChipThickness / 2., 0., 0.,
+                                   mVertL / 2., mInnerL / 2., mOuterL / 2., 0.,
+                                   mVertL / 2., mInnerL / 2., mOuterL / 2., 0.);
 
   TGeoMedium* medSi = gGeoManager->GetMedium("FCT_SILICON$");
   TGeoMedium* medAir = gGeoManager->GetMedium("FCT_AIR$");
