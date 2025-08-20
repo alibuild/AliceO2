@@ -77,7 +77,7 @@ DataProcessorSpec getTPCDigitRootWriterSpec(std::vector<int> const& laneConfigur
     }
   };
 
-  //branch definitions for RootTreeWriter spec
+  // branch definitions for RootTreeWriter spec
   using DigitsOutputType = std::vector<o2::tpc::Digit>;
   using CommonModeOutputType = std::vector<o2::tpc::CommonMode>;
 
