@@ -143,7 +143,7 @@ struct Spawnable {
 
   Spawnable(InputSpec const& spec)
   {
-    auto loc = std::find_if(spec.metadata.begin(), spec.metadata.end(), [](ConfigParamSpec const& spc){ return spc.name.compare("projectors") == 0; });
+    auto loc = std::find_if(spec.metadata.begin(), spec.metadata.end(), [](ConfigParamSpec const& spc) { return spc.name.compare("projectors") == 0; });
     std::stringstream iws(loc->defaultValue.get<std::string>());
     projectors = ExpressionJSONHelpers::read(iws);
     for (auto& i : spec.metadata) {
