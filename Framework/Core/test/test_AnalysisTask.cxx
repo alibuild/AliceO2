@@ -195,7 +195,7 @@ struct MTask {
     PresliceUnsortedOptional<aod::Collisions> perMcColopt = aod::mccollisionlabel::mcCollisionId;
   } foo;
   void process(aod::McCollision const&, soa::SmallGroups<soa::Join<aod::Collisions, aod::McCollisionLabels>> const&) {}
-};\
+};
 
 TEST_CASE("AdaptorCompilation")
 {
