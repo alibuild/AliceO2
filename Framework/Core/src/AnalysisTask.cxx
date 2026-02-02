@@ -35,8 +35,7 @@ std::string type_to_task_name(std::string_view const& camelCase)
     std::string_view replacement;
   } abbreviations[] = {
     {"-e-m-c-a-l", "-emcal"},
-    {"-e-m-c", "-emc"}
-  };
+    {"-e-m-c", "-emc"}};
 
   std::string consolidated;
   consolidated.reserve(result.size());
