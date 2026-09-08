@@ -142,12 +142,13 @@ void CheckDigitsIOTOF(std::string digifile = "tf3digits.root",
   kineTree->SetBranchAddress("TrackRefs", &mcTracksRefsPerEvent[0]);
 
   TH1F* hGenHitsEta[2][2] = {{
-    new TH1F("hGenHitsEtaPrmL0", "hGenHitsEtaPrmL0", 40, -2, 2),
-    new TH1F("hGenHitsEtaSecL0", "hGenHitsEtaSecL0", 40, -2, 2),
-  }, {
-    new TH1F("hGenHitsEtaPrmL1", "hGenHitsEtaPrmL1", 40, -2, 2),
-    new TH1F("hGenHitsEtaSecL1", "hGenHitsEtaSecL1", 40, -2, 2),
-  }};
+                               new TH1F("hGenHitsEtaPrmL0", "hGenHitsEtaPrmL0", 40, -2, 2),
+                               new TH1F("hGenHitsEtaSecL0", "hGenHitsEtaSecL0", 40, -2, 2),
+                             },
+                             {
+                               new TH1F("hGenHitsEtaPrmL1", "hGenHitsEtaPrmL1", 40, -2, 2),
+                               new TH1F("hGenHitsEtaSecL1", "hGenHitsEtaSecL1", 40, -2, 2),
+                             }};
 
   // Load all MC hit events upfront and build the hit lookup map.
   for (int im = 0; im < nevH; ++im) {
@@ -162,7 +163,7 @@ void CheckDigitsIOTOF(std::string digifile = "tf3digits.root",
       uint64_t key = (uint64_t(hit.GetTrackID()) << 32) + hit.GetDetectorID();
       mc2hit.emplace(key, ih);
 
-      auto &mcTrack = mcTracksPerEvent[im]->at(hit.GetTrackID());
+      auto& mcTrack = mcTracksPerEvent[im]->at(hit.GetTrackID());
       bool isPrimary = mcTrack.isPrimary();
 
       int layer = gman->getIOTOFLayer(hit.GetDetectorID());
@@ -186,12 +187,13 @@ void CheckDigitsIOTOF(std::string digifile = "tf3digits.root",
 
   // LOOP on : ROFRecord array
   TH1F* hRecoDigitEta[2][2] = {{
-    new TH1F("hRecoDigitEtaPrmL0", "hRecoDigitEtaPrmL0", 40, -2, 2),
-    new TH1F("hRecoDigitEtaSecL0", "hRecoDigitEtaSecL0", 40, -2, 2),
-  }, {
-    new TH1F("hRecoDigitEtaPrmL1", "hRecoDigitEtaPrmL1", 40, -2, 2),
-    new TH1F("hRecoDigitEtaSecL1", "hRecoDigitEtaSecL1", 40, -2, 2),
-  }};
+                                 new TH1F("hRecoDigitEtaPrmL0", "hRecoDigitEtaPrmL0", 40, -2, 2),
+                                 new TH1F("hRecoDigitEtaSecL0", "hRecoDigitEtaSecL0", 40, -2, 2),
+                               },
+                               {
+                                 new TH1F("hRecoDigitEtaPrmL1", "hRecoDigitEtaPrmL1", 40, -2, 2),
+                                 new TH1F("hRecoDigitEtaSecL1", "hRecoDigitEtaSecL1", 40, -2, 2),
+                               }};
 
   std::unordered_map<uint64_t, std::vector<int>> hitDigitMap;
   for (unsigned int iROF = 0; iROF < rofArr.size(); ++iROF) {
@@ -397,14 +399,16 @@ void CheckDigitsIOTOF(std::string digifile = "tf3digits.root",
         const auto& hit = (*hitArray[evtID])[hitIndex];
 
         int hitLayer = gman->getIOTOFLayer(hit.GetDetectorID());
-        if (hitLayer != layer) continue;
+        if (hitLayer != layer)
+          continue;
 
         float energyLoss = hit.GetEnergyLoss(); // in GeV
         int charge = static_cast<int>(energyLoss * 2.77778e+08);
 
         auto& mcTrack = mcTracksPerEvent[evtID]->at(hit.GetTrackID());
         bool isPrimary = mcTrack.isPrimary();
-        if ((isPrimary ? 0 : 1) != type) continue;
+        if ((isPrimary ? 0 : 1) != type)
+          continue;
 
         const auto& digitIndices = hitDigitPair.second;
         float totalDigitCharge = 0.0f;

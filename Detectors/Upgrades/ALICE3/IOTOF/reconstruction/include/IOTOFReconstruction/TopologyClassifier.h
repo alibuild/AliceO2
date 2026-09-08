@@ -14,7 +14,7 @@
 ///
 /// Short TopologyClassifier descritpion
 ///
-/// This class is for the association of the cluster 
+/// This class is for the association of the cluster
 /// topology with the corresponding entry in the dictionary
 ///
 
@@ -69,7 +69,8 @@ struct TopologyInfo {
   Topologies mTopology = Topologies::kNTopologies;
   uint16_t mPattern; ///< Bitmask of fired pixels
 
-  void print() const {
+  void print() const
+  {
     LOG(info) << "---> TopologyInfo: Topology = " << static_cast<int>(mTopology)
               << ", SizeX = " << mSizeX << ", SizeZ = " << mSizeZ
               << ", OffsetXToCOG = " << mOffsetXToCOG << ", OffsetZToCOG = " << mOffsetZToCOG
@@ -81,7 +82,8 @@ struct TopologyInfo {
   }
 };
 
-class TopologyClassifier {
+class TopologyClassifier
+{
  public:
   // Define limits for domain validation
   static constexpr uint8_t MaxRowSpan = 255;
@@ -102,10 +104,11 @@ class TopologyClassifier {
 
  private:
   /// Packs: [ spanRow (8b) ][ spanCol (8b) ][ bitmask (16b) ] -> 32 bits total
-  [[nodiscard]] static constexpr uint32_t packKey(uint8_t spanRow, uint8_t spanCol, uint16_t bitmask) noexcept {
+  [[nodiscard]] static constexpr uint32_t packKey(uint8_t spanRow, uint8_t spanCol, uint16_t bitmask) noexcept
+  {
     return (static_cast<uint32_t>(spanRow) << 24) |
            (static_cast<uint32_t>(spanCol) << 16) |
-            static_cast<uint32_t>(bitmask);
+           static_cast<uint32_t>(bitmask);
   }
 
   std::unordered_map<uint32_t, TopologyInfo> mTopologyCache;
