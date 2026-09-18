@@ -184,7 +184,6 @@ void CheckClustersIOTOF(std::string clusfile = "tf3clusters.root",
     const auto& rofRec = rofRecVec[irof];
     rofRec.print();
 
-
     // >> read and map MC events contributing to this ROF
     for (int im = 0; im <= nEvts; im++) {
       if (!hitVecPool[im]) {
@@ -219,32 +218,32 @@ void CheckClustersIOTOF(std::string clusfile = "tf3clusters.root",
         continue;
       }
       // std::cout << "CIAO2" << std::endl;
-      
+
       uint32_t topoKey = TopologyClassifier::makeKey(spanRow, spanCol, pattID);
       errX = topoClassifier.getErrX(topoKey);
       errZ = topoClassifier.getErrZ(topoKey);
       npix = topoClassifier.getNPixels(topoKey);
       auto chipID = cluster.getSensorID();
       // std::cout << "CIAO3" << std::endl;
-      
+
       // Transformation to the local --> global
       locC = topoClassifier.getClusterCoordinates(cluster);
       // std::cout << "CIAO31" << std::endl;
       auto gloC = gman->getMatrixL2G(chipID) * locC;
       // std::cout << "CIAO32" << std::endl;
-      
+
       // Check how many labels are there
       if (clusLabArr->getLabels(clEntry).empty()) {
         continue;
       }
       const auto& lab = (clusLabArr->getLabels(clEntry))[0];
       // std::cout << "CIAO33" << std::endl;
-      
+
       // std::cout << "CIAO4" << std::endl;
       if (!lab.isValid() || lab.getSourceID() == QEDSourceID)
         continue;
       // std::cout << "CIAO5" << std::endl;
-      
+
       // get MC info
       int trID = lab.getTrackID();
       const auto& mc2hit = mc2hitVec[lab.getEventID()];
@@ -261,7 +260,7 @@ void CheckClustersIOTOF(std::string clusfile = "tf3clusters.root",
       float dx = 0, dz = 0;
       int ievH = lab.getEventID();
       o2::math_utils::Point3D<float> locH, locHsta;
-      
+
       // mean local position of the hit
       locH = gman->getMatrixL2G(chipID) ^ (hit.GetPos()); // inverse conversion from global to local
       locHsta = gman->getMatrixL2G(chipID) ^ (hit.GetPosStart());

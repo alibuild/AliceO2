@@ -127,10 +127,10 @@ void Clusterer::ClustererThread::processChip(gsl::span<const Digit> digits,
     }
 
     findClustersMultipleHits(
-        digits,
-        gsl::span<const uint32_t>(digitIdxs),
-        labelsDigPtr,
-        labelsClusPtr);
+      digits,
+      gsl::span<const uint32_t>(digitIdxs),
+      labelsDigPtr,
+      labelsClusPtr);
   }
 
   // Flush per-thread output into the caller's containers
@@ -258,9 +258,9 @@ void Clusterer::ClustererThread::findClustersMultipleHits(gsl::span<const Digit>
       Cluster cluster(minRow, minCol, rowSpan, colSpan, firedDigitsMask, clsTopology, chipID, time);
 
       LOG(debug) << "Pushing back cluster with row: " << row << ", col: " << col << ", rowSpan: " << rowSpan
-                << ", colSpan: " << colSpan << ", pattern: " << firedDigitsMask
-                << ", topology: " << clsTopology << ", chipID: " << chipID
-                << ", time: " << time;
+                 << ", colSpan: " << colSpan << ", pattern: " << firedDigitsMask
+                 << ", topology: " << clsTopology << ", chipID: " << chipID
+                 << ", time: " << time;
 
       mClusters.emplace_back(cluster);
       mPatterns.emplace_back(static_cast<unsigned char>(firedDigitsMask));
@@ -304,7 +304,7 @@ void Clusterer::ClustererThread::findClustersMultipleHits(gsl::span<const Digit>
         const auto& digit = digits[idx];
         const uint16_t rowOffset = digit.getRow() - minRow;
         const uint16_t colOffset = digit.getColumn() - minCol;
-        
+
         // Single bit position calculation
         const uint16_t bitIndex = rowOffset * colSpan + colOffset;
 
