@@ -29,14 +29,14 @@ using half = _Float16;
 
 #import <Foundation/Foundation.h>
 
-#include <vector>
-#include <string>
+#include <mach/mach_time.h>
+#include <condition_variable>
+#include <cstdio>
 #include <memory>
 #include <mutex>
-#include <condition_variable>
+#include <string>
 #include <unordered_map>
-#include <cstdio>
-#include <mach/mach_time.h>
+#include <vector>
 #include "GPULogging.h"
 
 #include "GPUReconstructionMetal.h"
